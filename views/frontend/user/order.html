@@ -2,7 +2,7 @@
 {{template "../public/banner.html" .}}
 
 <script src="/static/frontend/js/jqPaginator.js"></script>
-<link rel="stylesheet" href="/static/frontend/css/order.css" />
+<link rel="stylesheet" href="/static/frontend/css/order.css"/>
 
 <!-- self_info -->
 <div class="grzxbj">
@@ -10,7 +10,7 @@
         <div class="lfnav fl">
             <div class="ddzx">用户中心</div>
             <div class="subddzx">
-                {{template "../public/user_left.html" .}}
+            {{template "../public/user_left.html" .}}
             </div>
         </div>
         <div class="rtcont fr">
@@ -25,45 +25,47 @@
                             <li><a href="/user/order?order_status=3">待收货</a></li>
                             <li><a href="/user/order?order_status=6">已关闭</a></li>
                         </ul>
-                        <form id="J_orderSearchForm" class="search-form clearfix" action="/user/order" method="get">
-                            <input class="search-text" type="search" id="J_orderSearchKeywords" name="keywords"
-                                autocomplete="off" placeholder="输入商品名称">
+                        <form id="J_orderSearchForm" class="search-form clearfix"
+                              action="/user/order" method="get">
+                            <input class="search-text" type="search" id="J_orderSearchKeywords"
+                                   name="keywords"
+                                   autocomplete="off" placeholder="输入商品名称">
                             <input type="submit" class="search-btn iconfont" value="搜索">
                         </form>
                     </div>
                 </div>
-                {{if .order}}
+            {{if .order}}
                 <div class="box-bd">
                     <table class="table">
-                        {{range $key,$value := .order}}
+                    {{range $key,$value := .order}}
                         <tr>
                             <td colspan="2">
                                 <div class="order-summary">
                                     <h2>
-                                        {{if eq $value.OrderStatus 0}}
+                                    {{if eq $value.OrderStatus 0}}
                                         已下单 未支付
-                                        {{else if eq $value.OrderStatus 1}}
+                                    {{else if eq $value.OrderStatus 1}}
                                         已付款
-                                        {{else if eq $value.OrderStatus 2}}
+                                    {{else if eq $value.OrderStatus 2}}
                                         已配货
-                                        {{else if eq $value.OrderStatus 3}}
+                                    {{else if eq $value.OrderStatus 3}}
                                         已发货
-                                        {{else if eq $value.OrderStatus 4}}
+                                    {{else if eq $value.OrderStatus 4}}
                                         交易成功
-                                        {{else if eq $value.OrderStatus 5}}
+                                    {{else if eq $value.OrderStatus 5}}
                                         已退货
-                                        {{else if eq $value.OrderStatus 6}}
+                                    {{else if eq $value.OrderStatus 6}}
                                         无效 已取消
-                                        {{end}}
+                                    {{end}}
                                     </h2>
-                                    {{$value.AddTime | timestampToDate}} | {{$value.Name}} |
+                                {{$value.AddTime | timestampToDate}} | {{$value.Name}} |
                                     订单号：{{$value.OrderId}} | 在线支付
                                     实付金额：{{$value.AllPrice}} 元
                                 </div>
-                                {{range $k,$v := $value.OrderItem}}
+                            {{range $k,$v := $value.OrderItem}}
                                 <div class="order-info clearfix">
                                     <div class="col_pic">
-                                        <img src="/{{$v.ProductImg}}" />
+                                        <img src="/{{$v.ProductImg}}"/>
                                     </div>
                                     <div class="col_title">
                                         <p>{{$v.ProductTitle}}</p>
@@ -71,45 +73,45 @@
                                         <p>合计：{{mul $v.ProductPrice $v.ProductNum}}元</p>
                                     </div>
                                 </div>
-                                {{end}}
+                            {{end}}
                             </td>
                             <td>
-                                {{if eq $value.OrderStatus 1}}
+                            {{if eq $value.OrderStatus 1}}
                                 <span>
-                                    <a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
-                                    <br>
-                                    <br>
-                                    <a class="btn" href="#">申请售后</a>
-                                </span>
-                                {{else}}
+										<a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+										<br>
+										<br>
+										<a class="btn" href="#">申请售后</a>
+									</span>
+                            {{else}}
                                 <span>
-                                    <a class="delete btn btn-primary" href="/buy/confirm?id={{$value.Id}}">去支付</a>
-                                    <br>
-                                    <br>
-                                    <a class="delete btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
-                                </span>
-                                {{end}}
+										<a class="delete btn btn-primary" href=
+                                                "/buy/confirm?id={{$value.Id}}">去支付</a>
+										<br>
+										<br>
+										<a class="delete btn" href=
+                                                "/user/orderinfo?id={{$value.Id}}">订单详情</a>
+									</span>
+                            {{end}}
                             </td>
                         </tr>
-                        {{end}}
+                    {{end}}
                     </table>
                     <div id="page" class="pagination fr"></div>
                 </div>
-                {{else}}
+            {{else}}
                 <p style="text-align:center; padding-top:100px;">没有查找到订单</p>
-                {{end}}
+            {{end}}
             </div>
             <script>
                 $('#page').jqPaginator({
-                    totalPages: {{.totalPages }},
+                    totalPages: {{.totalPages}},
                     visiblePages: 8,
-                    currentPage: {{.page }},
+                    currentPage: {{.page}},
                     onPageChange: function (num, type) {
                         if (type == 'change') {
-                            location.href = "/user/order?page=" + num + "&keywords=" + {{.keywords }
-                        } +
-                            "&order_status=" + {{.orderStatus }
-                    };
+                            location.href = "/user/order?page=" + num + "&keywords="+{{.keywords}}+
+                            "&order_status=" +{{.orderStatus}};
                         }
                     }
                 });

@@ -42,6 +42,7 @@ func (c *AuthController) GoLogin() {
 			"msg":     "用户登陆成功",
 		}
 		c.ServeJSON()
+		models.Cookie.Get(c.Ctx, "userinfo", user[0])
 		return
 	} else {
 		c.Data["json"] = map[string]interface{}{
