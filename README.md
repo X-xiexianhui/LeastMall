@@ -1,6 +1,6 @@
 # LeastMall
 
-本项目是基于go语言开发的B2C电商网站，使用beego框架搭建网站，grom框架操作数据库，使用Redis作为缓存，使用MySQL作为数据库。
+本项目是基于go语言开发的B2C电商网站，使用beego框架搭建网站，gorm框架操作数据库，使用Redis作为缓存，使用MySQL作为数据库。
 前端基于bootstrap+HTML+CSS+jQuery开发
 
 商城首页地址：http://101.132.109.205:8080
