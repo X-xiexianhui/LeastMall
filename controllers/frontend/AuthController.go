@@ -33,7 +33,7 @@ func (c *AuthController) GoLogin() {
 		return
 	}
 	password = common.Md5(password)
-	user := []models.User{}
+	var user []models.User
 	models.DB.Where("phone=? AND password=?", phone, password).Find(&user)
 	if len(user) > 0 {
 		models.Cookie.Set(c.Ctx, "userinfo", user[0])
