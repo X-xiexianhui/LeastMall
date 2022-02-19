@@ -75,10 +75,14 @@
                 phone: phone,
                 password: password,
                 phone_code: phone_code,
-                phoneCodeId: phoneCodeId
+                phoneCodeId: phoneCodeId,
+                crossDomain:true,
+                xhrFields: {
+                    withCredentials: true    // 要在这里设置 跨域设置cookie
+                },
             }, function (response) {
                 console.log(response);
-                if (response.success == true) {
+                if (response.success === true) {
                     if (prevPage) {
                         location.href = prevPage;
                     } else {

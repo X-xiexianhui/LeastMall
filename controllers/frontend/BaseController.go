@@ -66,8 +66,8 @@ func (c *BaseController) BaseInit() {
 	}
 
 	//判断用户是否登陆
-	user := models.User{}
-	models.Cookie.Get(c.Ctx, "userinfo", &user)
+	user := &models.User{}
+	models.Cookie.Get(c.Ctx, "userinfo", user)
 	if len(user.Phone) == 11 {
 		str := fmt.Sprintf(`<ul>
 			<li class="userinfo">
