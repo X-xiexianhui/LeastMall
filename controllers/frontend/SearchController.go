@@ -19,41 +19,41 @@ type SearchController struct {
 }
 
 func init() {
-	//exists, err := models.EsClient.IndexExists("product").Do(context.Background())
-	//if err != nil {
-	//	beego.Error(err)
-	//}
-	//if !exists {
-	//	// Create a new index.
-	//	mapping := `
-	//	{
-	//		"settings": {
-	//		  "number_of_shards": 1,
-	//		  "number_of_replicas": 0
-	//		},
-	//		"mappings": {
-	//		  "properties": {
-	//			"content": {
-	//			  "type": "text",
-	//			  "analyzer": "ik_max_word",
-	//			  "search_analyzer": "ik_max_word"
-	//			},
-	//			"title": {
-	//			  "type": "text",
-	//			  "analyzer": "ik_max_word",
-	//			  "search_analyzer": "ik_max_word"
-	//			}
-	//		  }
-	//		}
-	//	  }
-	//	`
-	//	_, err := models.EsClient.CreateIndex("product").Body(mapping).Do(context.Background())
-	//	if err != nil {
-	//		// Handle error
-	//		beego.Error(err)
-	//	}
-	//
-	//}
+	exists, err := models.EsClient.IndexExists("product").Do(context.Background())
+	if err != nil {
+		beego.Error(err)
+	}
+	if !exists {
+		// Create a new index.
+		mapping := `
+		{
+			"settings": {
+			  "number_of_shards": 1,
+			  "number_of_replicas": 0
+			},
+			"mappings": {
+			  "properties": {
+				"content": {
+				  "type": "text",
+				  "analyzer": "ik_max_word",
+				  "search_analyzer": "ik_max_word"
+				},
+				"title": {
+				  "type": "text",
+				  "analyzer": "ik_max_word",
+				  "search_analyzer": "ik_max_word"
+				}
+			  }
+			}
+		  }
+		`
+		_, err := models.EsClient.CreateIndex("product").Body(mapping).Do(context.Background())
+		if err != nil {
+			// Handle error
+			beego.Error(err)
+		}
+
+	}
 }
 
 //增加商品数据

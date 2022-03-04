@@ -23,7 +23,7 @@ func (c *PayController) Alipay() {
 	if err1 != nil {
 		c.Redirect(c.Ctx.Request.Referer(), 302)
 	}
-	orderitem := []models.OrderItem{}
+	var orderitem []models.OrderItem
 	models.DB.Where("order_id=?", AliId).Find(&orderitem)
 	var privateKey = "xxxxxxx" // 必须，上一步中使用 RSA签名验签工具 生成的私钥
 	var client, err = alipay.New("2021001186696588", privateKey, true)
@@ -102,7 +102,7 @@ func (c *PayController) WxPay() {
 	if err != nil {
 		c.Redirect(c.Ctx.Request.Referer(), 302)
 	}
-	orderitem := []models.OrderItem{}
+	var orderitem []models.OrderItem
 	models.DB.Where("order_id=?", WxId).Find(&orderitem)
 	//1、配置基本信息
 	account := wxpay.NewAccount(
