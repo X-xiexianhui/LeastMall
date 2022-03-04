@@ -25,6 +25,7 @@ func init() {
 	}
 	if !exists {
 		// Create a new index.
+		fmt.Println("Create a new index.")
 		mapping := `
 		{
 			"settings": {
@@ -52,7 +53,6 @@ func init() {
 			// Handle error
 			beego.Error(err)
 		}
-
 	}
 }
 
@@ -60,7 +60,7 @@ func init() {
 func (c *SearchController) AddProduct() {
 	product := []models.Product{}
 	models.DB.Find(&product)
-
+	fmt.Println(product)
 	for i := 0; i < len(product); i++ {
 		_, err := models.EsClient.Index().
 			Index("product").
@@ -123,7 +123,6 @@ func (c *SearchController) GetOne() {
 			c.Ctx.WriteString("GetOne")
 		}
 	}()
-
 	result, _ := models.EsClient.Get().
 		Index("product").
 		Id("19").
