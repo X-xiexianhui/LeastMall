@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="root@23.234.215.32:22" type="ssh/sftp" uuid="b61ab958-f8f3-4c9e-af72-f2735704927b">
+        <config>
+          <option name="projectRootOnTarget" value="/root/LeastMall" />
+          <option name="serverName" value="root@23.234.215.32:22 password" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/root/go" />
+            <option name="goRoot" value="/usr/local/go/bin/go" />
+            <option name="goVersion" value="go1.17.6 linux/amd64" />
+          </config>
+        </ContributedStateBase>
+      </target>
+      <target name="WSL - Ubuntu-20.04" type="wsl" uuid="a1e67589-fbb8-4c98-bbd6-cca216e82de5">
+        <config>
+          <option name="distributionMsId" value="Ubuntu-20.04" />
+          <option name="projectRootOnTarget" value="/mnt/c/Program Files/JetBrains/GoLand 2021.3.3/jbr/bin&#10;/LeastMall" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/" />
+            <option name="goRoot" value="/" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
