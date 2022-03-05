@@ -54,6 +54,20 @@ func init() {
 			beego.Error(err)
 		}
 	}
+	product := []models.Product{}
+	models.DB.Find(&product)
+	// fmt.Println(product)
+	for i := 0; i < len(product); i++ {
+		_, err := models.EsClient.Index().
+			Index("product").
+			Id(strconv.Itoa(product[i].Id)).
+			BodyJson(product[i]).
+			Do(context.Background())
+		if err != nil {
+			// Handle error
+			beego.Error(err)
+		}
+	}
 }
 
 //增加商品数据
@@ -74,7 +88,6 @@ func (c *SearchController) AddProduct() {
 	}
 
 	c.Ctx.WriteString("AddProduct success")
-
 }
 
 //更新数据
