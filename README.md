@@ -1,5 +1,7 @@
 # LeastMall
 
+更换docker集群部署，暂时停掉运行（2022/3/6）
+
 本项目是基于go语言开发的B2C电商网站，使用beego框架搭建网站，gorm框架操作数据库，使用Redis作为缓存，使用MySQL作为数据库。
 前端基于bootstrap+HTML+CSS+jQuery开发
 
