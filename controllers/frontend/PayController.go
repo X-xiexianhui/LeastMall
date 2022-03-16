@@ -28,7 +28,7 @@ func (c *PayController) Alipay() {
 	// 必须，上一步中使用 RSA签名验签工具 生成的私钥
 	var privateKey = "MIICyTCCAbECAQAwgYMxDzANBgNVBAYMBuS4reWbvTEPMA0GA1UECAwG5bm/6KW/\nMQ8wDQYDVQQHDAbljZflroExHzAdBgNVBAoMFnlod3V0cTA1NjJAc2FuZGJveC5j\nb20xFTATBgNVBAsMDOaymeeusea1i+ivlTEWMBQGA1UEAxMNMjMuMjM0LjIxNS4z\nMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJOvqF+A4P8/0mcYqYAE\nBpKXKprrzUSZ1GZDdgaHHi0kZRHX8p0wz9PtngzJDxJGC931PRqwqJIAu7Cvy4DK\nv0YzpUTpvzF/swBqVcPE/dWoQo7WEqBCZP2dNtTGC7M8HvNieYGi0+FIvwSBFGnj\nM/n8nZDknCmXKwuS5lwIN7CKPejOzbLKx2Pr7kXdj83I1OhQXcvbsoy6rEZ1w3/X\ncR18wDdtNU3rJoORtRlvERXlHNkV4dO9Wj2YkQs7oAgb4G87prflURJdm7EwEQ9U\nkkB6RDab9XBQDEhpf6+u2VKnYgfxFIY8BYPaHrT7Cnw8TwahIeO8ultMH8pE7X+X\nLcMCAwEAAaAAMA0GCSqGSIb3DQEBBAUAA4IBAQAIVaJL76rBCGXH0viC9grRB1+s\ng3Fx6omUdhPCEiAnlR2MuTUL/4l/PZXMpykTu9dLPR0P7gusMoP89rG8tLqRADdg\n/zs4ibv59sT6KQ2RlFtVIbxO+cGYW8uKBve4aZ1FOZF/sSdK6+LJ1j69zDKwEmzy\nQ6ZxyK+/2ze9xc1J5ViqPW6MKjiZNduYuKV6W28wDy+nkCTIdTmqbadM64tXFJNJ\nunM8++NVRoDh9OOZk6BSpcnxLcfHcTkiEoNDeITzxFFctQmFm+EfqHBa6xedVrhf\nMCDTGf8FRX+0jejgeYlFQQhKfsgVi3DC3poMKJpPeq2sixTlZatuaICF22BQ"
 	appid := "2021000119640205"
-	var client, err = alipay.New(appid, privateKey, true)
+	var client, err = alipay.New(appid, privateKey, false)
 	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.certfile") // 加载应用公钥证书
 	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.certfile")                   // 加载支付宝根证书
 	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.certfile")       // 加载支付宝公钥证书
@@ -45,8 +45,8 @@ func (c *PayController) Alipay() {
 		TotalAmount = TotalAmount + orderitem[i].ProductPrice
 	}
 	var p = alipay.TradePagePay{}
-	p.NotifyURL = "xxxxxxx"
-	p.ReturnURL = "xxxxxxx"
+	p.NotifyURL = "http://23.234.215.32:8081/alipayNotify"
+	p.ReturnURL = "http://23.234.215.32:8081/alipayReturn"
 	p.TotalAmount = "0.01"
 	p.Subject = "订单order——" + time.Now().Format("200601021504")
 	p.OutTradeNo = "WF" + time.Now().Format("200601021504") + "_" + strconv.Itoa(AliId)
@@ -61,10 +61,11 @@ func (c *PayController) Alipay() {
 }
 
 func (c *PayController) AlipayNotify() {
-	var privateKey = "xxxxxxxxxxxxxxx" // 必须，上一步中使用 RSA签名验签工具 生成的私钥
-	var client, err = alipay.New("2021001186696588", privateKey, true)
+	var privateKey = "MIICyTCCAbECAQAwgYMxDzANBgNVBAYMBuS4reWbvTEPMA0GA1UECAwG5bm/6KW/\nMQ8wDQYDVQQHDAbljZflroExHzAdBgNVBAoMFnlod3V0cTA1NjJAc2FuZGJveC5j\nb20xFTATBgNVBAsMDOaymeeusea1i+ivlTEWMBQGA1UEAxMNMjMuMjM0LjIxNS4z\nMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJOvqF+A4P8/0mcYqYAE\nBpKXKprrzUSZ1GZDdgaHHi0kZRHX8p0wz9PtngzJDxJGC931PRqwqJIAu7Cvy4DK\nv0YzpUTpvzF/swBqVcPE/dWoQo7WEqBCZP2dNtTGC7M8HvNieYGi0+FIvwSBFGnj\nM/n8nZDknCmXKwuS5lwIN7CKPejOzbLKx2Pr7kXdj83I1OhQXcvbsoy6rEZ1w3/X\ncR18wDdtNU3rJoORtRlvERXlHNkV4dO9Wj2YkQs7oAgb4G87prflURJdm7EwEQ9U\nkkB6RDab9XBQDEhpf6+u2VKnYgfxFIY8BYPaHrT7Cnw8TwahIeO8ultMH8pE7X+X\nLcMCAwEAAaAAMA0GCSqGSIb3DQEBBAUAA4IBAQAIVaJL76rBCGXH0viC9grRB1+s\ng3Fx6omUdhPCEiAnlR2MuTUL/4l/PZXMpykTu9dLPR0P7gusMoP89rG8tLqRADdg\n/zs4ibv59sT6KQ2RlFtVIbxO+cGYW8uKBve4aZ1FOZF/sSdK6+LJ1j69zDKwEmzy\nQ6ZxyK+/2ze9xc1J5ViqPW6MKjiZNduYuKV6W28wDy+nkCTIdTmqbadM64tXFJNJ\nunM8++NVRoDh9OOZk6BSpcnxLcfHcTkiEoNDeITzxFFctQmFm+EfqHBa6xedVrhf\nMCDTGf8FRX+0jejgeYlFQQhKfsgVi3DC3poMKJpPeq2sixTlZatuaICF22BQ"
+	appid := "2021000119640205"
+	var client, err = alipay.New(appid, privateKey, false)
 
-	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021001186696588.certfile") // 加载应用公钥证书
+	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.certfile") // 加载应用公钥证书
 	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.certfile")                   // 加载支付宝根证书
 	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.certfile")       // 加载支付宝公钥证书
 
