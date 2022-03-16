@@ -12,4 +12,5 @@
 安装连接：https://openhome.alipay.com/platform/appDaily.htm?tab=tool  
 账号：vwobqf9762@sandbox.com  
 密码：111111  
-支付密码：111111
+支付密码：111111  
+微信仿真测试系统需要真实商户ID，所以无法进行测试
