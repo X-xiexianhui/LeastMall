@@ -26,16 +26,15 @@ func (c *PayController) Alipay() {
 	var orderitem []models.OrderItem
 	models.DB.Where("order_id=?", AliId).Find(&orderitem)
 	// 必须，上一步中使用 RSA签名验签工具 生成的私钥
-	var privateKey = "MIICyTCCAbECAQAwgYMxDzANBgNVBAYMBuS4reWbvTEPMA0GA1UECAwG5bm/6KW/\nMQ8wDQYDVQQHDAbljZflroExHzAdBgNVBAoMFnlod3V0cTA1NjJAc2FuZGJveC5j\nb20xFTATBgNVBAsMDOaymeeusea1i+ivlTEWMBQGA1UEAxMNMjMuMjM0LjIxNS4z\nMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJOvqF+A4P8/0mcYqYAE\nBpKXKprrzUSZ1GZDdgaHHi0kZRHX8p0wz9PtngzJDxJGC931PRqwqJIAu7Cvy4DK\nv0YzpUTpvzF/swBqVcPE/dWoQo7WEqBCZP2dNtTGC7M8HvNieYGi0+FIvwSBFGnj\nM/n8nZDknCmXKwuS5lwIN7CKPejOzbLKx2Pr7kXdj83I1OhQXcvbsoy6rEZ1w3/X\ncR18wDdtNU3rJoORtRlvERXlHNkV4dO9Wj2YkQs7oAgb4G87prflURJdm7EwEQ9U\nkkB6RDab9XBQDEhpf6+u2VKnYgfxFIY8BYPaHrT7Cnw8TwahIeO8ultMH8pE7X+X\nLcMCAwEAAaAAMA0GCSqGSIb3DQEBBAUAA4IBAQAIVaJL76rBCGXH0viC9grRB1+s\ng3Fx6omUdhPCEiAnlR2MuTUL/4l/PZXMpykTu9dLPR0P7gusMoP89rG8tLqRADdg\n/zs4ibv59sT6KQ2RlFtVIbxO+cGYW8uKBve4aZ1FOZF/sSdK6+LJ1j69zDKwEmzy\nQ6ZxyK+/2ze9xc1J5ViqPW6MKjiZNduYuKV6W28wDy+nkCTIdTmqbadM64tXFJNJ\nunM8++NVRoDh9OOZk6BSpcnxLcfHcTkiEoNDeITzxFFctQmFm+EfqHBa6xedVrhf\nMCDTGf8FRX+0jejgeYlFQQhKfsgVi3DC3poMKJpPeq2sixTlZatuaICF22BQ"
-	appid := "2021000119640205"
-	var client, err = alipay.New(appid, privateKey, false)
-	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.certfile") // 加载应用公钥证书
-	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.certfile")                   // 加载支付宝根证书
-	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.certfile")       // 加载支付宝公钥证书
+	var privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7O8k74wW4OdrBZAF0r19GPMK4/sAfb1SXAelLWxO53R8mukZJDWCR9j9iqU7X4b6CSR8y/r/AP/jsGE5qurkE7Wvd12z+97ogXmZOF5tmFDH1l0P8Tx+z33R7aO39saxB5EcfdFUpx1xQkn3tf84foNwJEra0yz6dsSz5pvm0wjtHV46UqfJy+3iWf1XMkkH10KZg1a4Ora3HBKStS0KE1zMlosNg+7p0N+lC2iQS9h7I89TxZU4YWIH2a83Ml+PsHruxEpwHNOqqtz5WnzrUdte33dc0kX0lgNW9GPtqtormmqFkjmz1sAdBrY1ppedeXi8KRGqbDpFyQiJgh5nvAgMBAAECggEALdp8c/ArTGzOyCHnwV3ZpWfoAEpTXt9zBfBv5AaQFCq1IFTqNaXTCqwV5eG072XXtCyYOXLuHvULzzY8riLAgRZsHk5N4TtmF9tGjsV1R1CW06CSA86U4wZMjpSqBEFpAFIZoPhqiurKDulxcaKlJlXMzWQJ3skPsqrbauCbssqaRYxdO5SqF7HjIia/fzgxHlM4xzt3LLsqvWO+MRN/DdirJF4rYz4xS1+2qWxEMHI+BXYhm0dg/VE0m/7gbNcytqu8iA3nhqpkFLB+TNWtfkrx+XgRUbUgo8+cUFNxmLcqDPmCQyHx4VFuJQ1HHy8vuA585w2GVZtbm5s2i/cBMQKBgQD8yB5uiaUGdxszTCxzCu5Iq0eAryj0OJ+ex2tPXFoQmdJyt3KTDXDxt6CZeNjESNNOA+fdx5baFYVqFn91N+GaAT2RTV5V67BAZ2e9k33IH9orvDEpDjP/k7h9FlNv0Ec/ZOhn7nLb0Q+6zSvVABXMWS6L84jCLS1iHrz3l4wT+wKBgQC9ngdZJT4wJi0a9T9eToyV4ayJ+zuiAOQ+52EBBcITfuGEmc6T5YZPPD1yq35t+U9G7uXDhq837oA/054u/MbiTrA+REaC9tWNaGbGQHejMcglzcTxn2NKc0AAm4vvQd4KZVgFxcqWe3AbGP5yo5Wsd0IfuwtzTBH5FJFZwWW7nQKBgFIVJZSdS6IS0RlSNejRdtjQDXLi7fiH3oUvmk/13CUh3e10Vlcb+T30c8kCLdlnEH531DX3FqwQavctAQxuLerVVkm1htl9pAj1ywELQL/YX/7tqET9oLLwI+sycbuQNWKHgNQm4NMyStpMv1v2IB3wI6Y8WX88Lk17T79STaE7AoGAJpZ3Vlvu6OuL+FV6fN2tXH8dlsLq4tAdovOBWSzrzv3eNRb75DssdwmCU8i0pPq8eGn7livdkptVvCd7pIJKkxmCYlmQo+xJj0p0x9msvyhNW+whLS7LjQYhOz5sXtdfsWvoWtximvcp3Enc1kWWGw/2A/ETpnYPnkniPorOAj0CgYEAl7LhWFPNmgUPuQF2Rv9ouSqhIl+tjBNV2CR+caHH0io/n8M7H1h57bZ0g6HvgMQcFdP0y5Nkk3QQdvHKthcaTNebzbeH09eaUH6HzN5YCArS9dej5Gm6YF3cBaFaTC27zF8VAg9xkCN0q6qzZHDi+CTC6ksCtyqsX70jhFsme4Q="
+	var client, err = alipay.New("2021000119640205", privateKey, false)
+	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.crt") // 加载应用公钥证书
+	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.crt")                   // 加载支付宝根证书
+	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.crt")       // 加载支付宝公钥证书
 
 	// 将 key 的验证调整到初始化阶段
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("err0", err)
 		return
 	}
 
@@ -61,18 +60,16 @@ func (c *PayController) Alipay() {
 }
 
 func (c *PayController) AlipayNotify() {
-	var privateKey = "MIICyTCCAbECAQAwgYMxDzANBgNVBAYMBuS4reWbvTEPMA0GA1UECAwG5bm/6KW/\nMQ8wDQYDVQQHDAbljZflroExHzAdBgNVBAoMFnlod3V0cTA1NjJAc2FuZGJveC5j\nb20xFTATBgNVBAsMDOaymeeusea1i+ivlTEWMBQGA1UEAxMNMjMuMjM0LjIxNS4z\nMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJOvqF+A4P8/0mcYqYAE\nBpKXKprrzUSZ1GZDdgaHHi0kZRHX8p0wz9PtngzJDxJGC931PRqwqJIAu7Cvy4DK\nv0YzpUTpvzF/swBqVcPE/dWoQo7WEqBCZP2dNtTGC7M8HvNieYGi0+FIvwSBFGnj\nM/n8nZDknCmXKwuS5lwIN7CKPejOzbLKx2Pr7kXdj83I1OhQXcvbsoy6rEZ1w3/X\ncR18wDdtNU3rJoORtRlvERXlHNkV4dO9Wj2YkQs7oAgb4G87prflURJdm7EwEQ9U\nkkB6RDab9XBQDEhpf6+u2VKnYgfxFIY8BYPaHrT7Cnw8TwahIeO8ultMH8pE7X+X\nLcMCAwEAAaAAMA0GCSqGSIb3DQEBBAUAA4IBAQAIVaJL76rBCGXH0viC9grRB1+s\ng3Fx6omUdhPCEiAnlR2MuTUL/4l/PZXMpykTu9dLPR0P7gusMoP89rG8tLqRADdg\n/zs4ibv59sT6KQ2RlFtVIbxO+cGYW8uKBve4aZ1FOZF/sSdK6+LJ1j69zDKwEmzy\nQ6ZxyK+/2ze9xc1J5ViqPW6MKjiZNduYuKV6W28wDy+nkCTIdTmqbadM64tXFJNJ\nunM8++NVRoDh9OOZk6BSpcnxLcfHcTkiEoNDeITzxFFctQmFm+EfqHBa6xedVrhf\nMCDTGf8FRX+0jejgeYlFQQhKfsgVi3DC3poMKJpPeq2sixTlZatuaICF22BQ"
-	appid := "2021000119640205"
-	var client, err = alipay.New(appid, privateKey, false)
-
-	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.certfile") // 加载应用公钥证书
-	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.certfile")                   // 加载支付宝根证书
-	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.certfile")       // 加载支付宝公钥证书
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println(r)
+		}
+	}()
+	var privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7O8k74wW4OdrBZAF0r19GPMK4/sAfb1SXAelLWxO53R8mukZJDWCR9j9iqU7X4b6CSR8y/r/AP/jsGE5qurkE7Wvd12z+97ogXmZOF5tmFDH1l0P8Tx+z33R7aO39saxB5EcfdFUpx1xQkn3tf84foNwJEra0yz6dsSz5pvm0wjtHV46UqfJy+3iWf1XMkkH10KZg1a4Ora3HBKStS0KE1zMlosNg+7p0N+lC2iQS9h7I89TxZU4YWIH2a83Ml+PsHruxEpwHNOqqtz5WnzrUdte33dc0kX0lgNW9GPtqtormmqFkjmz1sAdBrY1ppedeXi8KRGqbDpFyQiJgh5nvAgMBAAECggEALdp8c/ArTGzOyCHnwV3ZpWfoAEpTXt9zBfBv5AaQFCq1IFTqNaXTCqwV5eG072XXtCyYOXLuHvULzzY8riLAgRZsHk5N4TtmF9tGjsV1R1CW06CSA86U4wZMjpSqBEFpAFIZoPhqiurKDulxcaKlJlXMzWQJ3skPsqrbauCbssqaRYxdO5SqF7HjIia/fzgxHlM4xzt3LLsqvWO+MRN/DdirJF4rYz4xS1+2qWxEMHI+BXYhm0dg/VE0m/7gbNcytqu8iA3nhqpkFLB+TNWtfkrx+XgRUbUgo8+cUFNxmLcqDPmCQyHx4VFuJQ1HHy8vuA585w2GVZtbm5s2i/cBMQKBgQD8yB5uiaUGdxszTCxzCu5Iq0eAryj0OJ+ex2tPXFoQmdJyt3KTDXDxt6CZeNjESNNOA+fdx5baFYVqFn91N+GaAT2RTV5V67BAZ2e9k33IH9orvDEpDjP/k7h9FlNv0Ec/ZOhn7nLb0Q+6zSvVABXMWS6L84jCLS1iHrz3l4wT+wKBgQC9ngdZJT4wJi0a9T9eToyV4ayJ+zuiAOQ+52EBBcITfuGEmc6T5YZPPD1yq35t+U9G7uXDhq837oA/054u/MbiTrA+REaC9tWNaGbGQHejMcglzcTxn2NKc0AAm4vvQd4KZVgFxcqWe3AbGP5yo5Wsd0IfuwtzTBH5FJFZwWW7nQKBgFIVJZSdS6IS0RlSNejRdtjQDXLi7fiH3oUvmk/13CUh3e10Vlcb+T30c8kCLdlnEH531DX3FqwQavctAQxuLerVVkm1htl9pAj1ywELQL/YX/7tqET9oLLwI+sycbuQNWKHgNQm4NMyStpMv1v2IB3wI6Y8WX88Lk17T79STaE7AoGAJpZ3Vlvu6OuL+FV6fN2tXH8dlsLq4tAdovOBWSzrzv3eNRb75DssdwmCU8i0pPq8eGn7livdkptVvCd7pIJKkxmCYlmQo+xJj0p0x9msvyhNW+whLS7LjQYhOz5sXtdfsWvoWtximvcp3Enc1kWWGw/2A/ETpnYPnkniPorOAj0CgYEAl7LhWFPNmgUPuQF2Rv9ouSqhIl+tjBNV2CR+caHH0io/n8M7H1h57bZ0g6HvgMQcFdP0y5Nkk3QQdvHKthcaTNebzbeH09eaUH6HzN5YCArS9dej5Gm6YF3cBaFaTC27zF8VAg9xkCN0q6qzZHDi+CTC6ksCtyqsX70jhFsme4Q="
+	var client, err = alipay.New("2021000119640205", privateKey, false)
+	client.LoadAppPublicCertFromFile("certfile/appCertPublicKey_2021000119640205.crt") // 加载应用公钥证书
+	client.LoadAliPayRootCertFromFile("certfile/alipayRootCert.crt")                   // 加载支付宝根证书
+	client.LoadAliPayPublicCertFromFile("certfile/alipayCertPublicKey_RSA2.crt")       // 加载支付宝公钥证书
 
 	req := c.Ctx.Request
 	req.ParseForm()
