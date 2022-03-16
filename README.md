@@ -7,3 +7,9 @@
 
 管理员登录地址：http://23.234.215.32:8081/backend/login
 管理员账号：admin,密码:Andy401927
+
+支付宝支付使用沙箱环境,需要支付宝客户端沙箱版进行支付  
+安装连接：https://openhome.alipay.com/platform/appDaily.htm?tab=tool  
+账号：vwobqf9762@sandbox.com  
+密码：111111  
+支付密码：111111
