@@ -7,7 +7,6 @@
 package modules
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -27,7 +26,7 @@ func init() {
 	url := user + ":" + password + "@tcp(" + host + port + ")/shop?charset=utf8&parseTime=True&loc=Local"
 	Db, err = gorm.Open("mysql", url)
 	if err != nil {
-		log.Panic("数据库启动失败……")
+		panic("数据库启动失败……")
 	}
-	fmt.Println("数据库启动成功……")
+	log.Println("数据库启动成功……")
 }
