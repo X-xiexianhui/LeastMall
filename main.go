@@ -12,10 +12,10 @@ import (
 )
 
 func main() {
-	conn.Db.LogMode(true)
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
 	r := gin.Default()
+	conn.Db.LogMode(true)
 	_ = r.Run(":8080")
 }
