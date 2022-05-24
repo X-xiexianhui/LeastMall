@@ -32,7 +32,8 @@ type Cache struct {
 }
 
 type Elastic struct {
-	URL   string `yaml:"url"`
+	Host  string `yaml:"host"`
+	Port  string `yaml:"port"`
 	Sniff bool   `yaml:"sniff"`
 }
 
@@ -46,6 +47,7 @@ func init() {
 		log.Panicln(err)
 	}
 	err := cfg.Unmarshal(&Conf)
+	log.Println(Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
