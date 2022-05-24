@@ -19,7 +19,7 @@ var err error
 
 func InitDataBase() {
 	mysql := Conf.Mysql
-	fmt.Println(Conf)
+	fmt.Println(mysql)
 	user := mysql.User
 	password := mysql.Password
 	host := mysql.Host
