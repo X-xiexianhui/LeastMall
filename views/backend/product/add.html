@@ -18,7 +18,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive input-form product_content">
-                    <form action="/{{config "String" "adminPath" ""}}/product/goadd" method="post"
+                    <form action="/{{cfg "String" "adminPath" ""}}/product/goadd" method="post"
                           enctype="multipart/form-data">
                         <!-- Menu tabs -->
                         <ul class="nav nav-tabs" role="tablist">
@@ -123,7 +123,7 @@
     new FroalaEditor('#content', {
         height: 200,
         language: 'zh_cn',
-        imageUploadURL: '/{{config "String" "adminPath" ""}}/product/goUpload'
+        imageUploadURL: '/{{cfg "String" "adminPath" ""}}/product/goUpload'
     });
     //动态生成商品规格参数
     $(function () {
@@ -131,7 +131,7 @@
             var cate_id = $(this).val()
             var str = ""
             var data = ""
-            $.get('/{{config "String" "adminPath" ""}}/product/getProductTypeAttribute', {"cate_id": cate_id}, function (response) {
+            $.get('/{{cfg "String" "adminPath" ""}}/product/getProductTypeAttribute', {"cate_id": cate_id}, function (response) {
                 console.log(response)
                 if (response.success) {
                     data = response.result;
@@ -160,7 +160,7 @@
     //批量上传图片
     $(function () {
         $('#photoUploader').diyUpload({
-            url: '/{{config "String" "adminPath" ""}}/product/goUpload',
+            url: '/{{cfg "String" "adminPath" ""}}/product/goUpload',
             success: function (response) {
                 console.info(response);
                 var photoStr = '<input type="hidden" name="product_image_list" value=' + response.link + ' />';

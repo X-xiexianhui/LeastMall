@@ -21,7 +21,6 @@ var err error
 
 func init() {
 	mysql := modules.Conf.Mysql
-	fmt.Println(mysql)
 	user := mysql.User
 	password := mysql.Password
 	host := mysql.Host

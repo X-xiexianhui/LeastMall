@@ -36,9 +36,9 @@
                     {{end}}
                     </td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/administrator/edit?id={{$value.Id}}">编辑</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/administrator/edit?id={{$value.Id}}">编辑</a>
                         <a class="delete"
-                           href="/{{config "String" "adminPath" ""}}/administrator/delete?id={{$value.Id}}">删除</a>
+                           href="/{{cfg "String" "adminPath" ""}}/administrator/delete?id={{$value.Id}}">删除</a>
                     </td>
                 </tr>
                 {{end}}

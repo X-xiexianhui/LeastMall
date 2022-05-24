@@ -38,9 +38,9 @@
                     <td>{{$value.Description}}</td>
                     <td>{{$value.AddTime | timestampToDate}}</td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/role/auth?id={{$value.Id}}">授权</a>
-                        <a href="/{{config "String" "adminPath" ""}}/role/edit?id={{$value.Id}}">编辑</a>
-                        <a class="delete" href="/{{config "String" "adminPath" ""}}/role/delete?id={{$value.Id}}">删除</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/role/auth?id={{$value.Id}}">授权</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/role/edit?id={{$value.Id}}">编辑</a>
+                        <a class="delete" href="/{{cfg "String" "adminPath" ""}}/role/delete?id={{$value.Id}}">删除</a>
                     </td>
                 </tr>
                 {{end}}

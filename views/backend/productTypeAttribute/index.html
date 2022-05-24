@@ -5,7 +5,7 @@
         <div class="panel panel-default">
             <div class="panel-heading clear">
                 <span>类型----{{.productType.Title}}</span>
-                <a href="/{{config "String" "adminPath" ""}}/productTypeAttribute/add?cate_id={{.productType.Id}}"
+                <a href="/{{cfg "String" "adminPath" ""}}/productTypeAttribute/add?cate_id={{.productType.Id}}"
                    class="btn btn-primary fr">增加商品类型属性</a>
             </div>
             <!--
@@ -56,10 +56,10 @@
                         {{end}}
                         </td>
                         <td class="text-center">
-                            <a href="/{{config "String" "adminPath" ""}}/productTypeAttribute/edit?id={{$value.Id}}"/>修改</a>
+                            <a href="/{{cfg "String" "adminPath" ""}}/productTypeAttribute/edit?id={{$value.Id}}"/>修改</a>
                             　
                             <a class="delete"
-                               href="/{{config "String" "adminPath" ""}}/productTypeAttribute/delete?id={{$value.Id}}&cate_id={{$value.CateId}}"/>删除</a>
+                               href="/{{cfg "String" "adminPath" ""}}/productTypeAttribute/delete?id={{$value.Id}}&cate_id={{$value.CateId}}"/>删除</a>
                         </td>
                     </tr>
                     {{end}}

@@ -9,7 +9,7 @@
         {{range $k,$v := $value.AuthItem}}
         {{if eq $v.Type 2}}
             <li class="list-group-item"><a target="rightMain"
-                                           href="/{{config "String" "adminPath" ""}}{{$v.Url}}">{{$v.ActionName}}</a>
+                                           href="/{{cfg "String" "adminPath" ""}}{{$v.Url}}">{{$v.ActionName}}</a>
             </li>
         {{end}}
         {{end}}
@@ -24,7 +24,7 @@
         {{if eq $v.Checked true}}
         {{if eq $v.Type 2}}
             <li class="list-group-item"><a target="rightMain"
-                                           href="/{{config "String" "adminPath" ""}}{{$v.Url}}">{{$v.ActionName}}</a>
+                                           href="/{{cfg "String" "adminPath" ""}}{{$v.Url}}">{{$v.ActionName}}</a>
             </li>
         {{end}}
         {{end}}

@@ -33,8 +33,8 @@
                               data-num="{{$value.Sort}}">{{$value.Sort}}</span></td>
                     <td>{{$value.Description}}</td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/auth/edit?id={{$value.Id}}">修改</a>　
-                        <a class="delete" href="/{{config "String" "adminPath" ""}}/auth/delete?id={{$value.Id}}">删除</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/auth/edit?id={{$value.Id}}">修改</a>　
+                        <a class="delete" href="/{{cfg "String" "adminPath" ""}}/auth/delete?id={{$value.Id}}">删除</a>
                     </td>
                 </tr>
                 {{range $k,$v := $value.AuthItem}}
@@ -55,8 +55,8 @@
                                data-num="{{$v.Sort}}">{{$v.Sort}}</span></td>
                     <td>　{{$v.Description}}</td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/auth/edit?id={{$v.Id}}">修改</a>　
-                        <a href="/{{config "String" "adminPath" ""}}/auth/delete?id={{$v.Id}}">删除</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/auth/edit?id={{$v.Id}}">修改</a>　
+                        <a href="/{{cfg "String" "adminPath" ""}}/auth/delete?id={{$v.Id}}">删除</a>
 
                     </td>
                 </tr>

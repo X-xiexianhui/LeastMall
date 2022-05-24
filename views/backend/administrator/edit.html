@@ -8,7 +8,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive input-form">
-                    <form action="/{{config "String" "adminPath" ""}}/administrator/goedit" method="post">
+                    <form action="/{{cfg "String" "adminPath" ""}}/administrator/goedit" method="post">
                         <ul>
                             <input type="hidden" name="id" value="{{.administrator.Id}}"/>
                             <li> 管理员名称: <input readonly type="text" name="Username"

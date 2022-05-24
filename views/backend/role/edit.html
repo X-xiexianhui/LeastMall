@@ -8,7 +8,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive input-form">
-                    <form action="/{{config "String" "adminPath" ""}}/role/goedit" method="post">
+                    <form action="/{{cfg "String" "adminPath" ""}}/role/goedit" method="post">
                         <ul>
                             <input type="hidden" name="id" value="{{.role.Id}}"/>
                             <li> 部门名称: <input type="text" name="title" value="{{.role.Title}}"/></li>

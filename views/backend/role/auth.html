@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <form action="/{{config "String" "adminPath" ""}}/role/goauth" method="post">
+        <form action="/{{cfg "String" "adminPath" ""}}/role/goauth" method="post">
             <input type="hidden" name="id" value="{{.roleId}}">
             <table class="table table-bordered">
             {{range $key,$value := .accessList}}

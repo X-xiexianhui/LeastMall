@@ -4,7 +4,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading clear">
-                <a href="/{{config "String" "adminPath" ""}}/productType/add" class="btn btn-primary fr">增加商品类型</a>
+                <a href="/{{cfg "String" "adminPath" ""}}/productType/add" class="btn btn-primary fr">增加商品类型</a>
             </div>
             <!--
                 列表展示
@@ -34,10 +34,10 @@
                         {{end}}
                         </td>
                         <td class="text-center">
-                            <a href="/{{config "String" "adminPath" ""}}/productTypeAttribute?cate_id={{$value.Id}}">属性列表</a>　
-                            <a href="/{{config "String" "adminPath" ""}}/productType/edit?id={{$value.Id}}"/>修改</a> 　
+                            <a href="/{{cfg "String" "adminPath" ""}}/productTypeAttribute?cate_id={{$value.Id}}">属性列表</a>　
+                            <a href="/{{cfg "String" "adminPath" ""}}/productType/edit?id={{$value.Id}}"/>修改</a> 　
                             <a class="delete"
-                               href="/{{config "String" "adminPath" ""}}/productType/delete?id={{$value.Id}}"/>删除</a>
+                               href="/{{cfg "String" "adminPath" ""}}/productType/delete?id={{$value.Id}}"/>删除</a>
                         </td>
                     </tr>
                     {{end}}

@@ -3,7 +3,7 @@
 
     <div class="panel panel-default">              
         <div class="panel-heading">
-            <a href="/{{config "String" "adminPath" ""}}/menu/add" class="btn btn-primary">增加导航</a>
+            <a href="/{{cfg "String" "adminPath" ""}}/menu/add" class="btn btn-primary">增加导航</a>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -44,8 +44,8 @@
                            {{end}}
                         </td>                            
                         <td class="text-center">
-                            <a href="/{{config "String" "adminPath" ""}}/menu/edit?id={{$value.Id}}" />修改</a> 　
-                            <a class="delete" href="/{{config "String" "adminPath" ""}}/menu/delete?id={{$value.Id}}" />删除</a>
+                            <a href="/{{cfg "String" "adminPath" ""}}/menu/edit?id={{$value.Id}}" />修改</a> 　
+                            <a class="delete" href="/{{cfg "String" "adminPath" ""}}/menu/delete?id={{$value.Id}}" />删除</a>
                         </td>
                     </tr>
                     {{end}}
@@ -64,7 +64,7 @@
                 onPageChange: function (num, type) {
                    console.log(num,type)
                    if(type=="change"){
-                        location.href="/{{config "String" "adminPath" ""}}/menu?page="+num;
+                        location.href="/{{cfg "String" "adminPath" ""}}/menu?page="+num;
                    }
                 }
             });

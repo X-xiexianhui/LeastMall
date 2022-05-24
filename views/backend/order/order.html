@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/static/backend/js/jqPaginator.js"></script>
 <div class="panel panel-default">
     <div class="panel-body">
-        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/order">
+        <form role="form" class="form-inline" method="get" action="/{{cfg "String" "adminPath" ""}}/order">
             <div class="form-group">
                 <label for="name">输入客户联系方式</label>
                 <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword"
@@ -77,10 +77,10 @@
                     </td>
                     <td>{{$value.AddTime | timestampToDate}}</td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/order/detail?id={{$value.Id}}"/>详情</a>
-                        <a href="/{{config "String" "adminPath" ""}}/order/edit?id={{$value.Id}}"/>修改</a> 　
+                        <a href="/{{cfg "String" "adminPath" ""}}/order/detail?id={{$value.Id}}"/>详情</a>
+                        <a href="/{{cfg "String" "adminPath" ""}}/order/edit?id={{$value.Id}}"/>修改</a> 　
                         <a class="delete"
-                           href="/{{config "String" "adminPath" ""}}/order/delete?id={{$value.Id}}"/>删除</a>
+                           href="/{{cfg "String" "adminPath" ""}}/order/delete?id={{$value.Id}}"/>删除</a>
                     </td>
                 </tr>
                 {{end}}
@@ -100,7 +100,7 @@
             onPageChange: function (num, type) {
                 console.log(num, type)
                 if (type == "change") {
-                    location.href = "/{{config "String" "adminPath" ""}}/order?page=" + num + "&keyword={{.keyword}}";
+                    location.href = "/{{cfg "String" "adminPath" ""}}/order?page=" + num + "&keyword={{.keyword}}";
                 }
             }
         });

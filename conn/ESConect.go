@@ -15,8 +15,8 @@ import (
 var EsClient *elastic.Client
 
 func init() {
-	config := modules.Conf.ES
-	EsClient, err = elastic.NewClient(elastic.SetURL(config.URL), elastic.SetSniff(config.Sniff))
+	cfg := modules.Conf.ES
+	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.URL), elastic.SetSniff(cfg.Sniff))
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -3,10 +3,10 @@
 <script type="text/javascript" src="/static/backend/js/jqPaginator.js"></script>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="/{{config "String" "adminPath" ""}}/product/add" class="btn btn-primary">增加商品</a>
+        <a href="/{{cfg "String" "adminPath" ""}}/product/add" class="btn btn-primary">增加商品</a>
     </div>
     <div class="panel-body">
-        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/product">
+        <form role="form" class="form-inline" method="get" action="/{{cfg "String" "adminPath" ""}}/product">
             <div class="form-group">
                 <label for="name">输入关键词</label>
                 <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword"
@@ -91,9 +91,9 @@
                               data-field="product_number">{{$value.ProductNumber}}</span>
                     </td>
                     <td class="text-center">
-                        <a href="/{{config "String" "adminPath" ""}}/product/edit?id={{$value.Id}}"/>修改</a> 　
+                        <a href="/{{cfg "String" "adminPath" ""}}/product/edit?id={{$value.Id}}"/>修改</a> 　
                         <a class="delete"
-                           href="/{{config "String" "adminPath" ""}}/product/delete?id={{$value.Id}}"/>删除</a>
+                           href="/{{cfg "String" "adminPath" ""}}/product/delete?id={{$value.Id}}"/>删除</a>
                     </td>
                 </tr>
                 {{end}}
@@ -113,7 +113,7 @@
             onPageChange: function (num, type) {
                 console.log(num, type)
                 if (type == "change") {
-                    location.href = "/{{config "String" "adminPath" ""}}/product?page=" + num + "&keyword={{.keyword}}";
+                    location.href = "/{{cfg "String" "adminPath" ""}}/product?page=" + num + "&keyword={{.keyword}}";
                 }
             }
         });

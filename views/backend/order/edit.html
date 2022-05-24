@@ -8,7 +8,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive input-form">
-                    <form action="/{{config "String" "adminPath" ""}}/order/goEdit" method="post"
+                    <form action="/{{cfg "String" "adminPath" ""}}/order/goEdit" method="post"
                           enctype="multipart/form-data">
                         <input type="hidden" value="{{.order.Id}}" name="id">
                         <ul>

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a href="/{{config "String" "adminPath" ""}}/productCate/add" class="btn btn-primary">增加商品分类</a>
+                <a href="/{{cfg "String" "adminPath" ""}}/productCate/add" class="btn btn-primary">增加商品分类</a>
             </div>
 
             <!--
@@ -38,9 +38,9 @@
                         {{end}}
                         </td>
                         <td class="text-center">　
-                            <a href="/{{config "String" "adminPath" ""}}/productCate/edit?id={{$value.Id}}"/>修改</a> 　
+                            <a href="/{{cfg "String" "adminPath" ""}}/productCate/edit?id={{$value.Id}}"/>修改</a> 　
                             <a class="delete"
-                               href="/{{config "String" "adminPath" ""}}/productCate/delete?id={{$value.Id}}"/>删除</a>
+                               href="/{{cfg "String" "adminPath" ""}}/productCate/delete?id={{$value.Id}}"/>删除</a>
                         </td>
                     </tr>
                     {{range $k,$v := $value.ProductCateItem}}
@@ -66,9 +66,9 @@
                         {{end}}
                         </td>
                         <td class="text-center">　
-                            <a href="/{{config "String" "adminPath" ""}}/productCate/edit?id={{$v.Id}}"/>修改</a> 　
+                            <a href="/{{cfg "String" "adminPath" ""}}/productCate/edit?id={{$v.Id}}"/>修改</a> 　
                             <a class="delete"
-                               href="/{{config "String" "adminPath" ""}}/productCate/delete?id={{$v.Id}}"/>删除</a>
+                               href="/{{cfg "String" "adminPath" ""}}/productCate/delete?id={{$v.Id}}"/>删除</a>
                         </td>
                     </tr>
                     {{end}}
