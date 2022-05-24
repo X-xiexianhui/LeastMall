@@ -7,6 +7,7 @@
 package modules
 
 import (
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -18,6 +19,7 @@ var err error
 
 func init() {
 	mysql := Conf.Mysql
+	fmt.Println(Conf)
 	user := mysql.User
 	password := mysql.Password
 	host := mysql.Host

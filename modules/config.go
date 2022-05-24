@@ -7,7 +7,6 @@
 package modules
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"time"
@@ -33,7 +32,7 @@ type Cache struct {
 
 var Conf Config
 
-func init() {
+func InitConfig() {
 	cfg := viper.New()
 	cfg.SetConfigName("config")
 	cfg.SetConfigFile("./conf/app.yaml")
@@ -41,7 +40,6 @@ func init() {
 		log.Panicln(err)
 	}
 	err := cfg.Unmarshal(&Conf)
-	fmt.Println(Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
