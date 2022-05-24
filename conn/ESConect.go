@@ -7,7 +7,6 @@
 package conn
 
 import (
-	"fmt"
 	"github.com/olivere/elastic/v7"
 	"leastMall_gin/modules"
 	"log"
@@ -21,5 +20,5 @@ func init() {
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println("elasticsearch connect success")
+	log.Println("elasticsearch connect success")
 }
