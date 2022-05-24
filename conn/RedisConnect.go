@@ -9,6 +9,7 @@ package conn
 import (
 	"github.com/go-redis/redis/v8"
 	"leastMall_gin/modules"
+	"log"
 )
 
 var Redis *redis.Client
@@ -21,4 +22,5 @@ func init() {
 		DB:          cache.DefaultDB,
 		DialTimeout: cache.DialTimeout,
 	})
+	log.Println("redis连接成功……")
 }

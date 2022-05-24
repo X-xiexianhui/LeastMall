@@ -7,8 +7,6 @@
 package conn
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -30,5 +28,5 @@ func init() {
 	if err != nil {
 		log.Panicln("数据库连接失败……")
 	}
-	_, _ = fmt.Fprintln(gin.DefaultWriter, "数据库连接成功")
+	log.Println("数据库连接成功……")
 }
