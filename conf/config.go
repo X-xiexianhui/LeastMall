@@ -7,6 +7,7 @@
 package conf
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"time"
@@ -40,5 +41,5 @@ func init() {
 		log.Panic("参数配置失败")
 	}
 	viper.WatchConfig()
-	log.Println("参数配置成功")
+	fmt.Println("参数配置成功")
 }
