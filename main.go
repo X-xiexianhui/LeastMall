@@ -7,14 +7,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"leastMall_gin/modules"
 	"log"
 )
-
-var Conf modules.Config
 
 func init() {
 	cfg := viper.New()
@@ -23,8 +20,7 @@ func init() {
 	if err := cfg.ReadInConfig(); err != nil { // 必须 先 读取 `ReadInConfig`
 		log.Panicln(err)
 	}
-	err := cfg.Unmarshal(&Conf)
-	fmt.Println(Conf)
+	err := cfg.Unmarshal(&modules.Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
@@ -37,6 +33,5 @@ func main() {
 	gin.ForceConsoleColor()
 	//启动gin
 	r := gin.Default()
-	modules.InitDataBase(Conf)
 	_ = r.Run(":8080")
 }

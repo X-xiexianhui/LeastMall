@@ -27,3 +27,5 @@ type Cache struct {
 	DefaultDB   int           `yaml:"defaultDB"`
 	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
+
+var Conf Config

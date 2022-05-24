@@ -16,7 +16,7 @@ import (
 var Db *gorm.DB
 var err error
 
-func InitDataBase(Conf Config) {
+func init() {
 	mysql := Conf.Mysql
 	user := mysql.User
 	password := mysql.Password
