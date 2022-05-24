@@ -39,7 +39,7 @@ func init() {
 	if err := cfg.ReadInConfig(); err != nil { // 必须 先 读取 `ReadInConfig`
 		log.Panicln(err)
 	}
-	err := cfg.Unmarshal(Conf)
+	err := cfg.Unmarshal(&Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
