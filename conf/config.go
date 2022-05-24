@@ -8,6 +8,7 @@ package conf
 
 import (
 	"github.com/spf13/viper"
+	"log"
 	"time"
 )
 
@@ -36,7 +37,8 @@ func init() {
 	viper.SetConfigFile(configPath)
 	err := viper.Unmarshal(Conf)
 	if err != nil {
-
+		log.Panicln("参数配置失败")
 	}
 	viper.WatchConfig()
+	log.Println("参数配置成功")
 }
