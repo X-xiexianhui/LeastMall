@@ -13,7 +13,7 @@ import (
 
 func main() {
 	modules.InitConfig()
-	modules.Db.LogMode(true)
+	//modules.Db.LogMode(true)
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
