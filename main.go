@@ -19,8 +19,7 @@ var Conf modules.Config
 func init() {
 	cfg := viper.New()
 	cfg.SetConfigName("config")
-	cfg.AddConfigPath("./conf")
-	cfg.SetConfigFile("app.yaml")
+	cfg.SetConfigFile("./conf/app.yaml")
 	if err := cfg.ReadInConfig(); err != nil { // 必须 先 读取 `ReadInConfig`
 		log.Panicln(err)
 	}
@@ -33,10 +32,11 @@ func init() {
 	log.Println("参数配置成功")
 }
 func main() {
+	modules.Db.LogMode(true)
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
 	r := gin.Default()
-	modules.InitDataBase()
+	modules.InitDataBase(Conf)
 	_ = r.Run(":8080")
 }
