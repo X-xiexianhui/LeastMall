@@ -9,12 +9,14 @@ package conn
 import (
 	"fmt"
 	"github.com/olivere/elastic/v7"
+	"leastMall_gin/modules"
 )
 
 var EsClient *elastic.Client
 
 func init() {
-	EsClient, err = elastic.NewClient(elastic.SetURL("http://localhost:9200"), elastic.SetSniff(false))
+	config := modules.Conf.ES
+	EsClient, err = elastic.NewClient(elastic.SetURL(config.URL), elastic.SetSniff(config.Sniff))
 	if err != nil {
 		fmt.Println(err)
 	}
