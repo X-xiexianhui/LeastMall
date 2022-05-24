@@ -5,3 +5,20 @@
    @note:
 */
 package conn
+
+import (
+	"github.com/go-redis/redis/v8"
+	"leastMall_gin/modules"
+)
+
+var Redis *redis.Client
+
+func init() {
+	cache := modules.Conf.Redis
+	Redis = redis.NewClient(&redis.Options{
+		Addr:        cache.Host + ":" + cache.Port,
+		Password:    cache.Password,
+		DB:          cache.DefaultDB,
+		DialTimeout: cache.DialTimeout,
+	})
+}
