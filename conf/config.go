@@ -12,8 +12,8 @@ import (
 )
 
 type Config struct {
-	Mysql *DataBase `yaml:"mysql"`
-	Redis *Cache    `yaml:"redis"`
+	Mysql DataBase `yaml:"mysql"`
+	Redis Cache    `yaml:"redis"`
 }
 type DataBase struct {
 	User     string `yaml:"user"`
