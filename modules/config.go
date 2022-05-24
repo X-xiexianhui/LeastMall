@@ -47,7 +47,6 @@ func init() {
 		log.Panicln(err)
 	}
 	err := cfg.Unmarshal(&Conf)
-	log.Println(Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
