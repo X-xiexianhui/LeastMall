@@ -7,8 +7,8 @@
 package modules
 
 import (
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"log"
 	"time"
 )
 
@@ -32,13 +32,13 @@ type Cache struct {
 var configPath = "../conf/app.yaml"
 var Conf *Config
 
-func init() {
+func InitConfig() {
 	viper.SetConfigName("config")
 	viper.SetConfigFile(configPath)
 	err := viper.Unmarshal(Conf)
 	if err != nil {
-		logrus.Errorln("参数配置失败")
+		log.Panic("参数配置失败")
 	}
 	viper.WatchConfig()
-	logrus.Println("参数配置成功")
+	log.Println("参数配置成功")
 }

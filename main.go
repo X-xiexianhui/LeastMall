@@ -8,15 +8,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"io"
-	"os"
+	"leastMall_gin/modules"
 )
 
 func main() {
 	//日志着色
 	gin.ForceConsoleColor()
-	gin.DefaultWriter = io.MultiWriter(os.Stdout)
 	//启动gin
 	r := gin.Default()
+	modules.InitConfig()
+	modules.InitDataBase()
 	_ = r.Run(":8080")
 }
