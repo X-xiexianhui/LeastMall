@@ -11,6 +11,10 @@ import (
 	"time"
 )
 
+type Config struct {
+	Mysql *DataBase `yaml:"mysql"`
+	Redis *Cache    `yaml:"redis"`
+}
 type DataBase struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
