@@ -32,6 +32,10 @@ type Cache struct {
 	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
 
+type Elastic struct {
+	URL string `yaml:"url"`
+}
+
 var Conf Config
 
 func init() {
