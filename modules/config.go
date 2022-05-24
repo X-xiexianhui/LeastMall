@@ -4,7 +4,7 @@
    @date:2022/5/24
    @note:
 */
-package conf
+package modules
 
 import (
 	"github.com/sirupsen/logrus"
@@ -29,7 +29,7 @@ type Cache struct {
 	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
 
-var configPath = "./app.yaml"
+var configPath = "../conf/app.yaml"
 var Conf *Config
 
 func init() {

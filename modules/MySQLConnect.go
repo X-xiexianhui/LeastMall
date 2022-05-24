@@ -11,14 +11,13 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/sirupsen/logrus"
-	"leastMall_gin/conf"
 )
 
 var Db *gorm.DB
 var err error
 
 func init() {
-	mysql := conf.Conf.Mysql
+	mysql := Conf.Mysql
 	user := mysql.User
 	password := mysql.Password
 	host := mysql.Host
