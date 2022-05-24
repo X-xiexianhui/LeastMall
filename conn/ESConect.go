@@ -8,13 +8,13 @@ package conn
 
 import (
 	"fmt"
-	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/olivere/elastic/v7"
 )
 
-var EsClient *elasticsearch.Client
+var EsClient *elastic.Client
 
 func init() {
-	EsClient, err = elasticsearch.NewDefaultClient()
+	EsClient, err = elastic.NewClient(elastic.SetURL("http://localhost:9200"), elastic.SetSniff(false))
 	if err != nil {
 		fmt.Println(err)
 	}

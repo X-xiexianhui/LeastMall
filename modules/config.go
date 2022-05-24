@@ -17,6 +17,7 @@ import (
 type Config struct {
 	Mysql DataBase `yaml:"mysql"`
 	Redis Cache    `yaml:"redis"`
+	ES    Elastic  `yaml:"elastic"`
 }
 type DataBase struct {
 	User     string `yaml:"user"`
@@ -33,7 +34,8 @@ type Cache struct {
 }
 
 type Elastic struct {
-	URL string `yaml:"url"`
+	URL   string `yaml:"url"`
+	Sniff bool   `yaml:"sniff"`
 }
 
 var Conf Config
