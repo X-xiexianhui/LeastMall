@@ -10,8 +10,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/sirupsen/logrus"
 	"leastMall_gin/conf"
-	"log"
 )
 
 var Db *gorm.DB
@@ -26,7 +26,7 @@ func init() {
 	url := user + ":" + password + "@tcp(" + host + port + ")/shop?charset=utf8&parseTime=True&loc=Local"
 	Db, err = gorm.Open("mysql", url)
 	if err != nil {
-		log.Panic("数据库连接失败……")
+		logrus.Errorln("数据库连接失败……")
 	}
-	log.Println("数据库连接成功……")
+	logrus.Println("数据库连接成功……")
 }
