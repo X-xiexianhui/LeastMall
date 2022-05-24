@@ -3,3 +3,9 @@ mysql:
   password: Andy401927
   host: 127.0.0.1
   port: 3306
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: # 密码(可为空)
+  defaultDB: 0 # 默认DB
+  dialTimeout: 5s #redis连接超时时间.默认5s
