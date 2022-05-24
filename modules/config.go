@@ -31,9 +31,9 @@ type Cache struct {
 }
 
 var Conf Config
+var cfg = viper.New()
 
 func init() {
-	cfg := viper.New()
 	cfg.SetConfigName("config")
 	cfg.SetConfigFile("./conf/app.yaml")
 	if err := cfg.ReadInConfig(); err != nil { // 必须 先 读取 `ReadInConfig`
