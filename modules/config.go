@@ -7,8 +7,10 @@
 package modules
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"log"
+	"os"
 	"time"
 )
 
@@ -44,5 +46,5 @@ func init() {
 		log.Panicln("参数配置失败")
 	}
 	cfg.WatchConfig()
-	log.Println("参数配置成功")
+	gin.LoggerWithWriter(os.Stdout, "参数配置成功")
 }

@@ -8,11 +8,13 @@ package conn
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"leastMall_gin/modules"
 	"log"
+	"os"
 )
 
 var Db *gorm.DB
@@ -30,5 +32,5 @@ func init() {
 	if err != nil {
 		log.Panicln("数据库连接失败……")
 	}
-	log.Println("数据库连接成功……")
+	gin.LoggerWithWriter(os.Stdout, "数据库连接成功……")
 }
