@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-type Mysql struct {
+type DataBase struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 	Host     string `yaml:"host"`
