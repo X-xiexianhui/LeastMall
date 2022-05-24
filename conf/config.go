@@ -29,15 +29,14 @@ type Cache struct {
 }
 
 var configPath = "./app.yaml"
-var conf Config
+var config Config
 
-func InitConfig() {
-	config := viper.New()
-	config.SetConfigName("config")
-	config.SetConfigFile(configPath)
-	err := config.Unmarshal(&conf)
+func init() {
+	viper.SetConfigName("config")
+	viper.SetConfigFile(configPath)
+	err := viper.Unmarshal(&config)
 	if err != nil {
 
 	}
-	config.WatchConfig()
+	viper.WatchConfig()
 }

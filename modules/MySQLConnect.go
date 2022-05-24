@@ -16,4 +16,5 @@ var Db *gorm.DB
 var err error
 
 func init() {
+
 }
