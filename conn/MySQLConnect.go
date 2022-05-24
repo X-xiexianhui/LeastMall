@@ -14,7 +14,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"leastMall_gin/modules"
 	"log"
-	"os"
 )
 
 var Db *gorm.DB
@@ -32,5 +31,5 @@ func init() {
 	if err != nil {
 		log.Panicln("数据库连接失败……")
 	}
-	gin.LoggerWithWriter(os.Stdout, "数据库连接成功……")
+	_, _ = fmt.Fprintln(gin.DefaultWriter, "数据库连接成功")
 }
