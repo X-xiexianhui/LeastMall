@@ -7,9 +7,8 @@
 package conf
 
 import (
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"log"
 	"time"
 )
 
@@ -38,8 +37,8 @@ func init() {
 	viper.SetConfigFile(configPath)
 	err := viper.Unmarshal(Conf)
 	if err != nil {
-		log.Panic("参数配置失败")
+		logrus.Errorln("参数配置失败")
 	}
 	viper.WatchConfig()
-	fmt.Println("参数配置成功")
+	logrus.Println("参数配置成功")
 }
