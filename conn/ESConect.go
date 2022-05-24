@@ -17,9 +17,10 @@ var EsClient *elastic.Client
 
 func init() {
 	cfg := modules.Conf.ES
+	fmt.Println(cfg.URL)
 	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.URL), elastic.SetSniff(cfg.Sniff))
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
 	}
-	fmt.Printf("elasticsearch connect success")
+	fmt.Println("elasticsearch connect success")
 }
