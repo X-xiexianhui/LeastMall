@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"github.com/olivere/elastic/v7"
 	"leastMall_gin/modules"
+	"log"
 )
 
 var EsClient *elastic.Client
@@ -18,7 +19,7 @@ func init() {
 	cfg := modules.Conf.ES
 	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.URL), elastic.SetSniff(cfg.Sniff))
 	if err != nil {
-		fmt.Println(err)
+		log.Panic(err)
 	}
 	fmt.Printf("elasticsearch connect success")
 }
