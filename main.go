@@ -8,12 +8,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"leastMall_gin/modules"
 )
 
 func main() {
-	modules.InitConfig()
-	//modules.Db.LogMode(true)
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin

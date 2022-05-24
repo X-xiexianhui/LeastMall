@@ -32,7 +32,7 @@ type Cache struct {
 
 var Conf Config
 
-func InitConfig() {
+func init() {
 	cfg := viper.New()
 	cfg.SetConfigName("config")
 	cfg.SetConfigFile("./conf/app.yaml")
