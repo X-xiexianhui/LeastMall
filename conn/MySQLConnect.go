@@ -4,21 +4,22 @@
    @date:2022/5/24
    @note:
 */
-package modules
+package conn
 
 import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"leastMall_gin/modules"
 	"log"
 )
 
 var Db *gorm.DB
 var err error
 
-func InitDataBase() {
-	mysql := Conf.Mysql
+func init() {
+	mysql := modules.Conf.Mysql
 	fmt.Println(mysql)
 	user := mysql.User
 	password := mysql.Password

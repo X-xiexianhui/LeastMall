@@ -28,7 +28,6 @@ func init() {
 	log.Println("参数配置成功")
 }
 func main() {
-	modules.InitDataBase()
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
