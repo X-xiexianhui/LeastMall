@@ -25,7 +25,7 @@ func InitDataBase() {
 	url := user + ":" + password + "@tcp(" + host + ":" + port + ")/shop?charset=utf8&parseTime=True&loc=Local"
 	Db, err = gorm.Open("mysql", url)
 	if err != nil {
-		log.Panic("数据库连接失败……")
+		log.Panicln("数据库连接失败……")
 	}
 	log.Println("数据库连接成功……")
 }

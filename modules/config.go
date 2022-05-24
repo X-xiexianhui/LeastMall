@@ -7,6 +7,7 @@
 package modules
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"time"
@@ -25,20 +26,27 @@ type DataBase struct {
 type Cache struct {
 	Host        string        `yaml:"host"`
 	Password    string        `yaml:"password"`
+	Port        string        `yaml:"port"`
 	DefaultDB   int           `yaml:"defaultDB"`
 	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
 
-var configPath = "../conf/app.yaml"
-var Conf *Config
+var configPath = "../conf"
+var Conf Config
 
 func InitConfig() {
-	viper.SetConfigName("config")
-	viper.SetConfigFile(configPath)
-	err := viper.Unmarshal(Conf)
+	cfg := viper.New()
+	cfg.SetConfigName("config")
+	cfg.AddConfigPath(configPath)
+	cfg.SetConfigFile("app.yaml")
+	if err := cfg.ReadInConfig(); err != nil { // 必须 先 读取 `ReadInConfig`
+		log.Panicln(err)
+	}
+	err = cfg.Unmarshal(&Conf)
+	fmt.Println(Conf)
 	if err != nil {
 		log.Panicln("参数配置失败")
 	}
-	viper.WatchConfig()
+	cfg.WatchConfig()
 	log.Println("参数配置成功")
 }
