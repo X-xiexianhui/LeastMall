@@ -37,7 +37,7 @@ func InitConfig() {
 	viper.SetConfigFile(configPath)
 	err := viper.Unmarshal(Conf)
 	if err != nil {
-		log.Panic("参数配置失败")
+		log.Panicln("参数配置失败")
 	}
 	viper.WatchConfig()
 	log.Println("参数配置成功")
