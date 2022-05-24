@@ -29,12 +29,13 @@ type Cache struct {
 }
 
 var configPath = "./app.yaml"
+var conf Config
 
 func InitConfig() {
 	config := viper.New()
 	config.SetConfigName("config")
 	config.SetConfigFile(configPath)
-	err := config.ReadInConfig()
+	err := config.Unmarshal(&conf)
 	if err != nil {
 
 	}
