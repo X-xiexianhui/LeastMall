@@ -8,6 +8,7 @@ import (
 )
 
 func AddAddress(c *gin.Context) {
+	data := models.NewData()
 	user := models.User{}
 	models.Cookie.Get(c, "userinfo", &user)
 	name := c.GetString("name")
@@ -21,7 +22,8 @@ func AddAddress(c *gin.Context) {
 			"success": false,
 			"message": "增加收货地址失败，收货地址数量超过限制",
 		}
-		c.JSON(http.StatusOK, json)
+		data["json"] = json
+		c.JSON(http.StatusOK, data)
 		return
 	}
 	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
@@ -40,17 +42,20 @@ func AddAddress(c *gin.Context) {
 		"success": true,
 		"result":  allAddressResult,
 	}
-	c.JSON(http.StatusOK, json)
+	data["json"] = json
+	c.JSON(http.StatusOK, data)
 }
 
 func GetOneAddressList(c *gin.Context) {
+	data := models.NewData()
 	addressId, err := c.Get("address_id")
 	if !err {
 		json := map[string]interface{}{
 			"success": false,
 			"message": "传入参数错误",
 		}
-		c.JSON(http.StatusOK, json)
+		data["json"] = json
+		c.JSON(http.StatusOK, data)
 		return
 	}
 	address := models.Address{}
@@ -59,19 +64,22 @@ func GetOneAddressList(c *gin.Context) {
 		"success": true,
 		"result":  address,
 	}
-	c.JSON(http.StatusOK, json)
+	data["json"] = json
+	c.JSON(http.StatusOK, data)
 }
 
-func (c *AddressController) GoEditAddressList() {
+func GoEditAddressList(c *gin.Context) {
+	data := models.NewData()
 	user := models.User{}
-	models.Cookie.Get(c.Ctx, "userinfo", &user)
-	addressId, err := c.GetInt("address_id")
-	if err != nil {
-		c.Data["json"] = map[string]interface{}{
+	models.Cookie.Get(c, "userinfo", &user)
+	addressId, err := c.Get("address_id")
+	if !err {
+		json := map[string]interface{}{
 			"success": false,
 			"message": "传入参数错误",
 		}
-		c.ServeJSON()
+		data["json"] = json
+		c.JSON(http.StatusOK, data)
 		return
 	}
 	name := c.GetString("name")
@@ -91,31 +99,34 @@ func (c *AddressController) GoEditAddressList() {
 	var allAddressResult []models.Address
 	conn.Db.Where("uid=?", user.Id).Order("default_address desc").Find(&allAddressResult)
 
-	c.Data["json"] = map[string]interface{}{
+	json := map[string]interface{}{
 		"success": true,
 		"result":  allAddressResult,
 	}
-	c.ServeJSON()
-
+	data["json"] = json
+	c.JSON(http.StatusOK, data)
 }
 
-func (c *AddressController) ChangeDefaultAddress() {
+func ChangeDefaultAddress(c *gin.Context) {
+	data := models.NewData()
 	user := models.User{}
-	models.Cookie.Get(c.Ctx, "userinfo", &user)
-	addressId, err := c.GetInt("address_id")
-	if err != nil {
-		c.Data["json"] = map[string]interface{}{
+	models.Cookie.Get(c, "userinfo", &user)
+	addressId, err := c.Get("address_id")
+	if !err {
+		json := map[string]interface{}{
 			"success": false,
 			"message": "传入参数错误",
 		}
-		c.ServeJSON()
+		data["json"] = json
+		c.JSON(http.StatusOK, data)
 		return
 	}
 	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
 	conn.Db.Table("address").Where("id=?", addressId).Updates(map[string]interface{}{"default_address": 1})
-	c.Data["json"] = map[string]interface{}{
+	json := map[string]interface{}{
 		"success": true,
 		"result":  "更新默认收获地址成功",
 	}
-	c.ServeJSON()
+	data["json"] = json
+	c.JSON(http.StatusOK, data)
 }
