@@ -8,21 +8,21 @@ import (
 //定义结构体  缓存结构体 私有
 type cookie struct{}
 
-//写入数据的方法
+// Set 写入数据的方法
 func (c cookie) Set(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
 	ctx.SetCookie(key, string(bytes), 3600*24*30, "/", Conf.Domain, false, true)
 
 }
 
-//删除数据的方法
+// Remove 删除数据的方法
 func (c cookie) Remove(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
 	ctx.SetCookie(key, string(bytes), -1, "/", Conf.Domain, false, true)
 
 }
 
-//获取数据的方法
+// Get 获取数据的方法
 func (c cookie) Get(ctx *gin.Context, key string, obj interface{}) bool {
 	tempData, err := ctx.Request.Cookie(key)
 	if err != nil {
