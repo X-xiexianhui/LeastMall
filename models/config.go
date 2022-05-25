@@ -1,10 +1,10 @@
-// Package modules
+// Package models
 /*
    @author:xie
    @date:2022/5/24
    @note:
 */
-package modules
+package models
 
 import (
 	"github.com/spf13/viper"

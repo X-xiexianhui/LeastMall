@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"leastMall_gin/modules"
+	"leastMall_gin/models"
 	"log"
 )
 
@@ -18,7 +18,7 @@ var Db *gorm.DB
 var err error
 
 func init() {
-	mysql := modules.Conf.Mysql
+	mysql := models.Conf.Mysql
 	user := mysql.User
 	password := mysql.Password
 	host := mysql.Host

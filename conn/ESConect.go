@@ -8,14 +8,14 @@ package conn
 
 import (
 	"github.com/olivere/elastic/v7"
-	"leastMall_gin/modules"
+	"leastMall_gin/models"
 	"log"
 )
 
 var EsClient *elastic.Client
 
 func init() {
-	cfg := modules.Conf.ES
+	cfg := models.Conf.ES
 	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.Host+":"+cfg.Port), elastic.SetSniff(cfg.Sniff))
 	if err != nil {
 		log.Println(err)
