@@ -23,7 +23,7 @@ func init() {
 		DB:          cache.DefaultDB,
 		DialTimeout: cache.DialTimeout,
 	})
-	_, err := Redis.Ping(context.TODO()).Result()
+	_, err := Redis.Ping(context.Background()).Result()
 	if err != nil {
 		log.Panic(err)
 	}
