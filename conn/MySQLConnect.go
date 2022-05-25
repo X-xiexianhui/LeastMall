@@ -18,6 +18,7 @@ var Db *gorm.DB
 var err error
 
 func init() {
+	Db.LogMode(true)
 	mysql := models.Conf.Mysql
 	user := mysql.User
 	password := mysql.Password

@@ -8,14 +8,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"leastMall_gin/conn"
+	"leastMall_gin/routers"
 )
 
 func main() {
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
-	r := gin.Default()
-	conn.Db.LogMode(true)
-	_ = r.Run(":8080")
+	_ = routers.Router.Run(":8080")
 }

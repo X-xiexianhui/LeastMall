@@ -34,32 +34,32 @@ func AddAddress(c *gin.Context) {
 		DefaultAddress: 1,
 	}
 	conn.Db.Create(&addressResult)
-	allAddressResult := []models.Address{}
+	var allAddressResult []models.Address
 	conn.Db.Where("uid=?", user.Id).Find(&allAddressResult)
-	c.Data["json"] = map[string]interface{}{
+	json := map[string]interface{}{
 		"success": true,
 		"result":  allAddressResult,
 	}
-	c.ServeJSON()
+	c.JSON(http.StatusOK, json)
 }
 
-func (c *AddressController) GetOneAddressList() {
-	addressId, err := c.GetInt("address_id")
-	if err != nil {
-		c.Data["json"] = map[string]interface{}{
+func GetOneAddressList(c *gin.Context) {
+	addressId, err := c.Get("address_id")
+	if !err {
+		json := map[string]interface{}{
 			"success": false,
 			"message": "传入参数错误",
 		}
-		c.ServeJSON()
+		c.JSON(http.StatusOK, json)
 		return
 	}
 	address := models.Address{}
 	conn.Db.Where("id=?", addressId).Find(&address)
-	c.Data["json"] = map[string]interface{}{
+	json := map[string]interface{}{
 		"success": true,
 		"result":  address,
 	}
-	c.ServeJSON()
+	c.JSON(http.StatusOK, json)
 }
 
 func (c *AddressController) GoEditAddressList() {
