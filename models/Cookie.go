@@ -2,35 +2,36 @@ package models
 
 import (
 	"encoding/json"
-
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
+	"github.com/gin-gonic/gin"
 )
 
 //定义结构体  缓存结构体 私有
 type cookie struct{}
 
 //写入数据的方法
-func (c cookie) Set(ctx *context.Context, key string, value interface{}) {
+func (c cookie) Set(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), 3600*24*30, "/", beego.AppConfig.String("domain"), nil, true)
+	ctx.SetCookie(key, string(bytes), 3600*24*30, "/", Conf.Domain, false, true)
 
 }
 
 //删除数据的方法
-func (c cookie) Remove(ctx *context.Context, key string, value interface{}) {
+func (c cookie) Remove(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), -1, "/", beego.AppConfig.String("domain"), nil, true)
+	ctx.SetCookie(key, string(bytes), -1, "/", Conf.Domain, false, true)
 
 }
 
 //获取数据的方法
-func (c cookie) Get(ctx *context.Context, key string, obj interface{}) bool {
-	tempData, ok := ctx.GetSecureCookie(beego.AppConfig.String("secureCookie"), key)
-	if !ok {
+func (c cookie) Get(ctx *gin.Context, key string, obj interface{}) bool {
+	tempData, err := ctx.Request.Cookie(key)
+	if err != nil {
 		return false
 	}
-	json.Unmarshal([]byte(tempData), obj)
+	err = json.Unmarshal([]byte(tempData.Value), obj)
+	if err != nil {
+		return false
+	}
 	return true
 
 }
