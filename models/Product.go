@@ -2,6 +2,7 @@ package models
 
 import (
 	_ "github.com/jinzhu/gorm"
+	"leastMall_gin/conn"
 )
 
 type Product struct {
@@ -39,9 +40,9 @@ func (Product) TableName() string {
 }
 
 func GetProductByCategory(cateId int, productType string, limitNum int) []Product {
-	product := []Product{}
-	productCate := []ProductCate{}
-	DB.Where("pid=?", cateId).Find(&productCate)
+	var product []Product
+	var productCate []ProductCate
+	conn.Db.Where("pid=?", cateId).Find(&productCate)
 	var tempSlice []int
 	if len(productCate) > 0 {
 		for i := 0; i < len(productCate); i++ {
@@ -60,6 +61,6 @@ func GetProductByCategory(cateId int, productType string, limitNum int) []Produc
 	default:
 		break
 	}
-	DB.Where(where, tempSlice).Select("id,title,price,product_img,sub_title").Limit(limitNum).Order("sort desc").Find(&product)
+	conn.Db.Where(where, tempSlice).Select("id,title,price,product_img,sub_title").Limit(limitNum).Order("sort desc").Find(&product)
 	return product
 }
