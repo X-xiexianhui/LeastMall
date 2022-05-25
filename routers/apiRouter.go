@@ -8,6 +8,7 @@ import (
 var Router = gin.Default()
 
 func init() {
+	Router.LoadHTMLGlob("./views/**/**/*")
 	ns := Router.Group("/api/v1")
 	{
 		ns.GET("/", api.Get)
