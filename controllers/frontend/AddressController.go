@@ -4,11 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"leastMall_gin/conn"
 	"leastMall_gin/models"
+	"net/http"
 )
 
 func AddAddress(c *gin.Context) {
 	user := models.User{}
-	models.Cookie.Get(c.Ctx, "userinfo", &user)
+	models.Cookie.Get(c, "userinfo", &user)
 	name := c.GetString("name")
 	phone := c.GetString("phone")
 	address := c.GetString("address")
@@ -16,11 +17,11 @@ func AddAddress(c *gin.Context) {
 	var addressCount int
 	conn.Db.Where("uid=?", user.Id).Table("address").Count(&addressCount)
 	if addressCount > 10 {
-		c.Data["json"] = map[string]interface{}{
+		json := map[string]interface{}{
 			"success": false,
 			"message": "增加收货地址失败，收货地址数量超过限制",
 		}
-		c.ServeJSON()
+		c.JSON(http.StatusOK, json)
 		return
 	}
 	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
@@ -87,7 +88,7 @@ func (c *AddressController) GoEditAddressList() {
 	addressModel.DefaultAddress = 1
 	conn.Db.Save(&addressModel)
 	// 查询当前用户的所有收货地址并返回
-	allAddressResult := []models.Address{}
+	var allAddressResult []models.Address
 	conn.Db.Where("uid=?", user.Id).Order("default_address desc").Find(&allAddressResult)
 
 	c.Data["json"] = map[string]interface{}{
