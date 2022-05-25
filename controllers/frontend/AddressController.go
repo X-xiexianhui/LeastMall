@@ -23,7 +23,7 @@ func AddAddress(c *gin.Context) {
 		c.ServeJSON()
 		return
 	}
-	models.DB.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
 	addressResult := models.Address{
 		Uid:            user.Id,
 		Name:           name,
@@ -32,9 +32,9 @@ func AddAddress(c *gin.Context) {
 		Zipcode:        zipcode,
 		DefaultAddress: 1,
 	}
-	models.DB.Create(&addressResult)
+	conn.Db.Create(&addressResult)
 	allAddressResult := []models.Address{}
-	models.DB.Where("uid=?", user.Id).Find(&allAddressResult)
+	conn.Db.Where("uid=?", user.Id).Find(&allAddressResult)
 	c.Data["json"] = map[string]interface{}{
 		"success": true,
 		"result":  allAddressResult,
@@ -53,7 +53,7 @@ func (c *AddressController) GetOneAddressList() {
 		return
 	}
 	address := models.Address{}
-	models.DB.Where("id=?", addressId).Find(&address)
+	conn.Db.Where("id=?", addressId).Find(&address)
 	c.Data["json"] = map[string]interface{}{
 		"success": true,
 		"result":  address,
@@ -77,18 +77,18 @@ func (c *AddressController) GoEditAddressList() {
 	phone := c.GetString("phone")
 	address := c.GetString("address")
 	zipcode := c.GetString("zipcode")
-	models.DB.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
 	addressModel := models.Address{}
-	models.DB.Where("id=?", addressId).Find(&addressModel)
+	conn.Db.Where("id=?", addressId).Find(&addressModel)
 	addressModel.Name = name
 	addressModel.Phone = phone
 	addressModel.Address = address
 	addressModel.Zipcode = zipcode
 	addressModel.DefaultAddress = 1
-	models.DB.Save(&addressModel)
+	conn.Db.Save(&addressModel)
 	// 查询当前用户的所有收货地址并返回
 	allAddressResult := []models.Address{}
-	models.DB.Where("uid=?", user.Id).Order("default_address desc").Find(&allAddressResult)
+	conn.Db.Where("uid=?", user.Id).Order("default_address desc").Find(&allAddressResult)
 
 	c.Data["json"] = map[string]interface{}{
 		"success": true,
@@ -110,8 +110,8 @@ func (c *AddressController) ChangeDefaultAddress() {
 		c.ServeJSON()
 		return
 	}
-	models.DB.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
-	models.DB.Table("address").Where("id=?", addressId).Updates(map[string]interface{}{"default_address": 1})
+	conn.Db.Table("address").Where("uid=?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	conn.Db.Table("address").Where("id=?", addressId).Updates(map[string]interface{}{"default_address": 1})
 	c.Data["json"] = map[string]interface{}{
 		"success": true,
 		"result":  "更新默认收获地址成功",
