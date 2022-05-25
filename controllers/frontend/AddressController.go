@@ -1,15 +1,12 @@
 package frontend
 
 import (
+	"github.com/gin-gonic/gin"
 	"leastMall_gin/conn"
 	"leastMall_gin/models"
 )
 
-type AddressController struct {
-	BaseController
-}
-
-func (c *AddressController) AddAddress() {
+func AddAddress(c *gin.Context) {
 	user := models.User{}
 	models.Cookie.Get(c.Ctx, "userinfo", &user)
 	name := c.GetString("name")
