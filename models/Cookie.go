@@ -36,5 +36,5 @@ func (c cookie) Get(ctx *gin.Context, key string, obj interface{}) bool {
 
 }
 
-//实例化结构体
+// Cookie 实例化结构体
 var Cookie = &cookie{}
