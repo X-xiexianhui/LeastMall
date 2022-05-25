@@ -11,7 +11,7 @@ func init() {
 	Router.LoadHTMLGlob("./views/**/**/*")
 	ns := Router.Group("/api/v1")
 	{
-		ns.GET("/", api.Get)
+		ns.GET("/", api.GetV1)
 		ns.GET("/menu", api.Menu)
 	}
 }

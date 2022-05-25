@@ -6,6 +6,7 @@ import (
 
 func init() {
 	Router.GET("/", frontend.IndexController)
+	Router.GET("/category_:id([0-9]+).html", frontend.CategoryList)
 }
 
 //func Init() {

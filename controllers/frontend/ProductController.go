@@ -1,30 +1,28 @@
 package frontend
 
 import (
+	"github.com/gin-gonic/gin"
+	"leastMall_gin/common"
+	"leastMall_gin/conn"
+	"leastMall_gin/models"
 	"math"
+	"net/http"
 	"strconv"
 	"strings"
-
-	"LeastMall/common"
-	"LeastMall/models"
 )
 
-type ProductController struct {
-	BaseController
-}
-
-func (c *ProductController) CategoryList() {
+func CategoryList(c *gin.Context) {
 	//调用公共功能
-	c.BaseInit()
+	BaseInit(c)
 
-	id := c.Ctx.Input.Param(":id")
+	id := c.Param(":id")
 	cateId, _ := strconv.Atoi(id)
 	curretProductCate := models.ProductCate{}
 	subProductCate := []models.ProductCate{}
-	models.DB.Where("id=?", cateId).Find(&curretProductCate)
+	conn.Db.Where("id=?", cateId).Find(&curretProductCate)
 
 	//当前页
-	page, _ := c.GetInt("page")
+	page, _ := c.Get("page")
 	if page == 0 {
 		page = 1
 	}
@@ -34,35 +32,35 @@ func (c *ProductController) CategoryList() {
 	var tempSlice []int
 	if curretProductCate.Pid == 0 { //顶级分类
 		//二级分类
-		models.DB.Where("pid=?", curretProductCate.Id).Find(&subProductCate)
+		conn.Db.Where("pid=?", curretProductCate.Id).Find(&subProductCate)
 		for i := 0; i < len(subProductCate); i++ {
 			tempSlice = append(tempSlice, subProductCate[i].Id)
 		}
 	} else {
 		//获取当前二级分类对应的同级分类
-		models.DB.Where("pid=?", curretProductCate.Pid).Find(&subProductCate)
+		conn.Db.Where("pid=?", curretProductCate.Pid).Find(&subProductCate)
 	}
 	tempSlice = append(tempSlice, cateId)
 	where := "cate_id in (?)"
 	product := []models.Product{}
-	models.DB.Where(where, tempSlice).Select("id,title,price,product_img,sub_title").Offset((page - 1) * pageSize).Limit(pageSize).Order("sort desc").Find(&product)
+	conn.Db.Where(where, tempSlice).Select("id,title,price,product_img,sub_title").Offset((page - 1) * pageSize).Limit(pageSize).Order("sort desc").Find(&product)
 	//查询product表里面的数量
 	var count int
-	models.DB.Where(where, tempSlice).Table("product").Count(&count)
-
-	c.Data["productList"] = product
-	c.Data["subProductCate"] = subProductCate
-	c.Data["curretProductCate"] = curretProductCate
-	c.Data["totalPages"] = math.Ceil(float64(count) / float64(pageSize))
-	c.Data["page"] = page
-
+	conn.Db.Where(where, tempSlice).Table("product").Count(&count)
+	Data := models.NewData()
+	Data["productList"] = product
+	Data["subProductCate"] = subProductCate
+	Data["curretProductCate"] = curretProductCate
+	Data["totalPages"] = math.Ceil(float64(count) / float64(pageSize))
+	Data["page"] = page
+	c.JSON(http.StatusOK, Data)
 	//指定分类模板
 	tpl := curretProductCate.Template
 	if tpl == "" {
 		tpl = "frontend/product/list.html"
 	}
 
-	c.TplName = tpl
+	c.Redirect(http.StatusOK, tpl)
 }
 
 func (c *ProductController) ProductItem() {
@@ -71,45 +69,45 @@ func (c *ProductController) ProductItem() {
 	id := c.Ctx.Input.Param(":id")
 	//获取商品信息
 	product := models.Product{}
-	models.DB.Where("id=?", id).Find(&product)
+	conn.Db.Where("id=?", id).Find(&product)
 	c.Data["product"] = product
 
 	//获取关联商品  RelationProduct
 	relationProduct := []models.Product{}
 	product.RelationProduct = strings.ReplaceAll(product.RelationProduct, "，", ",")
 	relationIds := strings.Split(product.RelationProduct, ",")
-	models.DB.Where("id in (?)", relationIds).Select("id,title,price,product_version").Find(&relationProduct)
+	conn.Db.Where("id in (?)", relationIds).Select("id,title,price,product_version").Find(&relationProduct)
 	c.Data["relationProduct"] = relationProduct
 
 	//获取关联赠品 ProductGift
 	productGift := []models.Product{}
 	product.ProductGift = strings.ReplaceAll(product.ProductGift, "，", ",")
 	giftIds := strings.Split(product.ProductGift, ",")
-	models.DB.Where("id in (?)", giftIds).Select("id,title,price,product_img").Find(&productGift)
+	conn.Db.Where("id in (?)", giftIds).Select("id,title,price,product_img").Find(&productGift)
 	c.Data["productGift"] = productGift
 
 	//获取关联颜色 ProductColor
 	productColor := []models.ProductColor{}
 	product.ProductColor = strings.ReplaceAll(product.ProductColor, "，", ",")
 	colorIds := strings.Split(product.ProductColor, ",")
-	models.DB.Where("id in (?)", colorIds).Find(&productColor)
+	conn.Db.Where("id in (?)", colorIds).Find(&productColor)
 	c.Data["productColor"] = productColor
 
 	//获取关联配件 ProductFitting
 	productFitting := []models.Product{}
 	product.ProductFitting = strings.ReplaceAll(product.ProductFitting, "，", ",")
 	fittingIds := strings.Split(product.ProductFitting, ",")
-	models.DB.Where("id in (?)", fittingIds).Select("id,title,price,product_img").Find(&productFitting)
+	conn.Db.Where("id in (?)", fittingIds).Select("id,title,price,product_img").Find(&productFitting)
 	c.Data["productFitting"] = productFitting
 
 	//获取商品关联的图片 ProductImage
 	productImage := []models.ProductImage{}
-	models.DB.Where("product_id=?", product.Id).Find(&productImage)
+	conn.Db.Where("product_id=?", product.Id).Find(&productImage)
 	c.Data["productImage"] = productImage
 
 	//获取规格参数信息 ProductAttr
 	productAttr := []models.ProductAttr{}
-	models.DB.Where("product_id=?", product.Id).Find(&productAttr)
+	conn.Db.Where("product_id=?", product.Id).Find(&productAttr)
 	c.Data["productAttr"] = productAttr
 
 	c.TplName = "frontend/product/item.html"
@@ -135,7 +133,7 @@ func (c *ProductController) Collect() {
 		c.ServeJSON()
 		return
 	}
-	isExist := models.DB.First(&user)
+	isExist := conn.Db.First(&user)
 	if isExist.RowsAffected == 0 {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
@@ -146,19 +144,19 @@ func (c *ProductController) Collect() {
 	}
 
 	goodCollect := models.ProductCollect{}
-	isExist = models.DB.Where("user_id=? AND product_id=?", user.Id, productId).First(&goodCollect)
+	isExist = conn.Db.Where("user_id=? AND product_id=?", user.Id, productId).First(&goodCollect)
 	if isExist.RowsAffected == 0 {
 		goodCollect.UserId = user.Id
 		goodCollect.ProductId = productId
 		goodCollect.AddTime = common.FormatDay()
-		models.DB.Create(&goodCollect)
+		conn.Db.Create(&goodCollect)
 		c.Data["json"] = map[string]interface{}{
 			"success": true,
 			"msg":     "收藏成功",
 		}
 		c.ServeJSON()
 	} else {
-		models.DB.Delete(&goodCollect)
+		conn.Db.Delete(&goodCollect)
 		c.Data["json"] = map[string]interface{}{
 			"success": true,
 			"msg":     "取消收藏成功",
@@ -172,8 +170,8 @@ func (c *ProductController) GetImgList() {
 	colorId, err1 := c.GetInt("color_id")
 	productId, err2 := c.GetInt("product_id")
 	//查询商品图库信息
-	productImage := []models.ProductImage{}
-	err3 := models.DB.Where("color_id=? AND product_id=?", colorId, productId).Find(&productImage).Error
+	var productImage []models.ProductImage
+	err3 := conn.Db.Where("color_id=? AND product_id=?", colorId, productId).Find(&productImage).Error
 
 	if err1 != nil || err2 != nil || err3 != nil {
 		c.Data["json"] = map[string]interface{}{
@@ -183,7 +181,7 @@ func (c *ProductController) GetImgList() {
 		c.ServeJSON()
 	} else {
 		if len(productImage) == 0 {
-			models.DB.Where("product_id=?", productId).Find(&productImage)
+			conn.Db.Where("product_id=?", productId).Find(&productImage)
 		}
 		c.Data["json"] = map[string]interface{}{
 			"result":  productImage,
