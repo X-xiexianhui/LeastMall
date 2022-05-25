@@ -2,6 +2,7 @@ package models
 
 import (
 	_ "github.com/jinzhu/gorm"
+	"leastMall_gin/conn"
 	"reflect"
 )
 
@@ -32,7 +33,7 @@ func GetSettingByColumn(columnName string) string {
 
 	//redis file
 	setting := Setting{}
-	DB.First(&setting)
+	conn.Db.First(&setting)
 	//反射来获取
 	v := reflect.ValueOf(setting)
 	val := v.FieldByName(columnName).String()
