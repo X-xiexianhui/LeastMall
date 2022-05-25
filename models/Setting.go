@@ -28,7 +28,6 @@ func (Setting) TableName() string {
 	return "setting"
 }
 
-//
 func GetSettingByColumn(columnName string) string {
 
 	//redis file
