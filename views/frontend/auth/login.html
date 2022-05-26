@@ -29,12 +29,12 @@
                                              placeholder="请输入你的用户名"/></div>
             <div class="username">密　码：<input class="inputclass" id="password" type="password" name="password"
                                              placeholder="请输入你的密码"/></div>
-            <div class="username">
-                <div class="left fl">验证码：<input class="verificode" id="phone_code" type="text" name="phone_code"
-                                                placeholder="请输入验证码"/></div>
-                <div class="right fl" id="verify_code"></div>
-                <div class="clear"></div>
-            </div>
+<!--            <div class="username">-->
+<!--                <div class="left fl">验证码：<input class="verificode" id="phone_code" type="text" name="phone_code"-->
+<!--                                                placeholder="请输入验证码"/></div>-->
+<!--                <div id="v_container"></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </div>-->
         </div>
         <div class="error">
         </div>
@@ -54,10 +54,9 @@
             const phone = $('#phone').val();
             const password = $('#password').val();
             const phone_code = $('#phone_code').val();
-            const phoneCodeId = $("input[name='captcha_id']").val();
             const prevPage = $("#prevPage").val();
             const reg = /^[\d]{11}$/;
-            const verifyFlag = $("#verify_code").validate(phone_code)
+            const verifyFlag = $.validate(phone_code)
             if (!verifyFlag) {
                 alert('验证码输入错误');
                 return false;
