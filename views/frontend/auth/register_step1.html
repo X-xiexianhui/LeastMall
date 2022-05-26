@@ -65,11 +65,11 @@
 
             $.get('/auth/sendCode', {
                 phone: phone,
-                phone_code: phone_code,
-                phoneCodeId: phoneCodeId
+                // phone_code: phone_code,
+                // phoneCodeId: phoneCodeId
             }, function (response) {
                 console.log(response)
-                if (response.success == true) {
+                if (response.success === true) {
                     //跳转到下页面
                     location.href = "/auth/registerStep2?sign=" + response.sign + "&phone_code=" + phone_code;
                 } else {
