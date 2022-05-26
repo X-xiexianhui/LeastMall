@@ -1,10 +1,11 @@
 package api
 
-import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-)
+import "github.com/astaxie/beego"
 
-func GetV2(c *gin.Context) {
-	c.String(http.StatusOK, "api v2")
+type V2Controller struct {
+	beego.Controller
+}
+
+func (c *V2Controller) Get() {
+	c.Ctx.WriteString("api v2")
 }
