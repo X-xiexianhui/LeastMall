@@ -34,7 +34,7 @@ func AddAddress(c *gin.Context) {
 		DefaultAddress: 1,
 	}
 	conn.Db.Create(&addressResult)
-	allAddressResult := []models.Address{}
+	var allAddressResult []models.Address
 	conn.Db.Where("uid=?", user.Id).Find(&allAddressResult)
 	data := map[string]interface{}{
 		"success": true,
