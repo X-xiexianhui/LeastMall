@@ -20,7 +20,7 @@ func Login(c *gin.Context) {
 	c.HTML(http.StatusOK, "frontend/auth/login.html", gin.H{"prevPage": c.Request.Referer()})
 }
 
-//登陆
+// GoLogin 登陆
 func (c *AuthController) GoLogin() {
 	phone := c.GetString("phone")
 	password := c.GetString("password")
@@ -45,32 +45,32 @@ func (c *AuthController) GoLogin() {
 	}
 }
 
-//退出登陆
+// LoginOut 退出登陆
 func (c *AuthController) LoginOut() {
 	models.Cookie.Remove(c.Ctx, "userinfo", "")
 	c.Redirect(c.Ctx.Request.Referer(), 302)
 }
 
-//注册第一步
+// RegisterStep1 注册第一步
 func (c *AuthController) RegisterStep1() {
 	c.TplName = "frontend/auth/register_step1.html"
 }
 
-//注册第二步
+// RegisterStep2 注册第二步
 func (c *AuthController) RegisterStep2() {
 	sign := c.GetString("sign")
-	phone_code := c.GetString("phone_code")
+	phoneCode := c.GetString("phone_code")
 	//验证图形验证码和前面是否正确
 	sessionPhotoCode := c.GetSession("phone_code")
-	if phone_code != sessionPhotoCode {
+	if phoneCode != sessionPhotoCode {
 		c.Redirect("/auth/registerStep1", 302)
 		return
 	}
-	userTemp := []models.UserSms{}
+	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
 		c.Data["sign"] = sign
-		c.Data["phone_code"] = phone_code
+		c.Data["phone_code"] = phoneCode
 		c.Data["phone"] = userTemp[0].Phone
 		c.TplName = "frontend/auth/register_step2.html"
 	} else {
@@ -79,20 +79,20 @@ func (c *AuthController) RegisterStep2() {
 	}
 }
 
-//注册第三步
+// RegisterStep3 注册第三步
 func (c *AuthController) RegisterStep3() {
 	sign := c.GetString("sign")
-	sms_code := c.GetString("sms_code")
+	smsCode := c.GetString("sms_code")
 	sessionSmsCode := c.GetSession("sms_code")
-	if sms_code != sessionSmsCode && sms_code != "5259" {
+	if smsCode != sessionSmsCode && smsCode != "5259" {
 		c.Redirect("/auth/registerStep1", 302)
 		return
 	}
-	userTemp := []models.UserSms{}
+	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
 		c.Data["sign"] = sign
-		c.Data["sms_code"] = sms_code
+		c.Data["sms_code"] = smsCode
 		c.TplName = "frontend/auth/register_step3.html"
 	} else {
 		c.Redirect("/auth/registerStep1", 302)
@@ -100,15 +100,15 @@ func (c *AuthController) RegisterStep3() {
 	}
 }
 
-//发送验证码
+// SendCode 发送验证码
 func (c *AuthController) SendCode() {
 	phone := c.GetString("phone")
-	phone_code := c.GetString("phone_code")
+	phoneCode := c.GetString("phone_code")
 	phoneCodeId := c.GetString("phoneCodeId")
 	if phoneCodeId == "resend" {
 		//session里面验证验证码是否合法
 		sessionPhotoCode := c.GetSession("phone_code")
-		if sessionPhotoCode != phone_code {
+		if sessionPhotoCode != phoneCode {
 			c.Data["json"] = map[string]interface{}{
 				"success": false,
 				"msg":     "输入的图形验证码不正确,非法请求",
@@ -117,7 +117,7 @@ func (c *AuthController) SendCode() {
 			return
 		}
 	}
-	if !models.Cpt.Verify(phoneCodeId, phone_code) {
+	if !models.Cpt.Verify(phoneCodeId, phoneCode) {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
 			"msg":     "输入的图形验证码不正确",
@@ -126,7 +126,7 @@ func (c *AuthController) SendCode() {
 		return
 	}
 
-	c.SetSession("phone_code", phone_code)
+	c.SetSession("phone_code", phoneCode)
 	pattern := `^[\d]{11}$`
 	reg := regexp.MustCompile(pattern)
 	if !reg.MatchString(phone) {
@@ -137,7 +137,7 @@ func (c *AuthController) SendCode() {
 		c.ServeJSON()
 		return
 	}
-	user := []models.User{}
+	var user []models.User
 	conn.Db.Where("phone=?", phone).Find(&user)
 	if len(user) > 0 {
 		c.Data["json"] = map[string]interface{}{
@@ -148,21 +148,21 @@ func (c *AuthController) SendCode() {
 		return
 	}
 
-	add_day := common.FormatDay()
+	addDay := common.FormatDay()
 	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
-	sign := common.Md5(phone + add_day) //签名
-	sms_code := common.GetRandomNum()
-	userTemp := []models.UserSms{}
-	conn.Db.Where("add_day=? AND phone=?", add_day, phone).Find(&userTemp)
+	sign := common.Md5(phone + addDay) //签名
+	smsCode := common.GetRandomNum()
+	var userTemp []models.UserSms
+	conn.Db.Where("add_day=? AND phone=?", addDay, phone).Find(&userTemp)
 	var sendCount int
-	conn.Db.Where("add_day=? AND ip=?", add_day, ip).Table("user_temp").Count(&sendCount)
+	conn.Db.Where("add_day=? AND ip=?", addDay, ip).Table("user_temp").Count(&sendCount)
 	//验证IP地址今天发送的次数是否合法
 	if sendCount <= 10 {
 		if len(userTemp) > 0 {
 			//验证当前手机号今天发送的次数是否合法
 			if userTemp[0].SendCount < 5 {
-				common.SendMsg(sms_code)
-				c.SetSession("sms_code", sms_code)
+				common.SendMsg(smsCode)
+				c.SetSession("sms_code", smsCode)
 				oneUserSms := models.UserSms{}
 				conn.Db.Where("id=?", userTemp[0].Id).Find(&oneUserSms)
 				oneUserSms.SendCount += 1
@@ -171,7 +171,7 @@ func (c *AuthController) SendCode() {
 					"success":  true,
 					"msg":      "短信发送成功",
 					"sign":     sign,
-					"sms_code": sms_code,
+					"sms_code": smsCode,
 				}
 				c.ServeJSON()
 				return
@@ -185,14 +185,14 @@ func (c *AuthController) SendCode() {
 			}
 
 		} else {
-			common.SendMsg(sms_code)
-			c.SetSession("sms_code", sms_code)
+			common.SendMsg(smsCode)
+			c.SetSession("sms_code", smsCode)
 			//发送验证码 并给userTemp写入数据
 			oneUserSms := models.UserSms{
 				Ip:        ip,
 				Phone:     phone,
 				SendCount: 1,
-				AddDay:    add_day,
+				AddDay:    addDay,
 				AddTime:   int(common.GetUnix()),
 				Sign:      sign,
 			}
@@ -201,7 +201,7 @@ func (c *AuthController) SendCode() {
 				"success":  true,
 				"msg":      "短信发送成功",
 				"sign":     sign,
-				"sms_code": sms_code,
+				"sms_code": smsCode,
 			}
 			c.ServeJSON()
 			return
@@ -217,12 +217,12 @@ func (c *AuthController) SendCode() {
 
 }
 
-//验证验证码
+// ValidateSmsCode 验证验证码
 func (c *AuthController) ValidateSmsCode() {
 	sign := c.GetString("sign")
-	sms_code := c.GetString("sms_code")
+	smsCode := c.GetString("sms_code")
 
-	userTemp := []models.UserSms{}
+	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) == 0 {
 		c.Data["json"] = map[string]interface{}{
@@ -234,7 +234,7 @@ func (c *AuthController) ValidateSmsCode() {
 	}
 
 	sessionSmsCode := c.GetSession("sms_code")
-	if sessionSmsCode != sms_code && sms_code != "5259" {
+	if sessionSmsCode != smsCode && smsCode != "5259" {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
 			"msg":     "输入的短信验证码错误",
@@ -260,14 +260,14 @@ func (c *AuthController) ValidateSmsCode() {
 	c.ServeJSON()
 }
 
-//注册操作
+// GoRegister 注册操作
 func (c *AuthController) GoRegister() {
 	sign := c.GetString("sign")
-	sms_code := c.GetString("sms_code")
+	smsCode := c.GetString("sms_code")
 	password := c.GetString("password")
 	rpassword := c.GetString("rpassword")
 	sessionSmsCode := c.GetSession("sms_code")
-	if sms_code != sessionSmsCode && sms_code != "5259" {
+	if smsCode != sessionSmsCode && smsCode != "5259" {
 		c.Redirect("/auth/registerStep1", 302)
 		return
 	}
@@ -277,7 +277,7 @@ func (c *AuthController) GoRegister() {
 	if password != rpassword {
 		c.Redirect("/auth/registerStep1", 302)
 	}
-	userTemp := []models.UserSms{}
+	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
 	if len(userTemp) > 0 {
