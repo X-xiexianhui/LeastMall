@@ -6,7 +6,6 @@
     <title>会员登录</title>
     <link rel="stylesheet" href="/static/frontend/css/login.css"/>
     <script src="/static/frontend/js/jquery-1.10.1.js"></script>
-    <script src="/static/public/js/verify.js"></script>
 </head>
 <body class="login_page">
 <!-- login -->
@@ -32,7 +31,9 @@
             <div class="username">
                 <div class="left fl">验证码：<input class="verificode" id="phone_code" type="text" name="phone_code"
                                                 placeholder="请输入验证码"/></div>
-                <div class="right fl" id="verify_code"></div>
+                <div class="right fl">
+                {{create_captcha}}
+                </div>
                 <div class="clear"></div>
             </div>
         </div>
@@ -50,30 +51,13 @@
 </footer>
 <script>
     $(function () {
-        $('#verify_code').codeVerify({
-            type : 1,
-            width : '400px',
-            height : '50px',
-            fontSize : '30px',
-            codeLength : 6,
-            btnId : 'check-btn',
-            ready : function() {
-            },
-            success : function() {
-                alert('验证匹配！');
-            },
-            error : function() {
-                return alert('验证码不匹配！');
-            }
-        });
         $("#goLogin").click(function (e) {
             var phone = $('#phone').val();
             var password = $('#password').val();
-            // var phone_code = $('#phone_code').val();
-            // var phoneCodeId = $("input[name='captcha_id']").val();
+            var phone_code = $('#phone_code').val();
+            var phoneCodeId = $("input[name='captcha_id']").val();
             var prevPage = $("#prevPage").val();
             var reg = /^[\d]{11}$/;
-            $.checkCode()
             if (!reg.test(phone)) {
                 alert('手机号输入错误');
                 return false;
