@@ -2,11 +2,11 @@ package backend
 
 import (
 	"fmt"
+	"leastMall_gin/common"
+	"leastMall_gin/conn"
+	"leastMall_gin/models"
 	"math"
 	"strconv"
-
-	"LeastMall/common"
-	"LeastMall/models"
 )
 
 type MenuController struct {
@@ -22,11 +22,11 @@ func (c *MenuController) Get() {
 	//每一页显示的数量
 	pageSize := 3
 	//查询数据
-	menu := []models.Menu{}
-	models.DB.Offset((page - 1) * pageSize).Limit(pageSize).Find(&menu)
+	var menu []models.Menu
+	conn.Db.Offset((page - 1) * pageSize).Limit(pageSize).Find(&menu)
 	//查询menu表里面的数量
 	var count int
-	models.DB.Table("menu").Count(&count)
+	conn.Db.Table("menu").Count(&count)
 	// if len(menu) == 0 {
 	// 	prvPage := page - 1
 	// 	if prvPage == 0 {
@@ -64,7 +64,7 @@ func (c *MenuController) GoAdd() {
 		AddTime:   int(common.GetUnix()),
 	}
 
-	err := models.DB.Create(&menu).Error
+	err := conn.Db.Create(&menu).Error
 	if err != nil {
 		c.Error("增加数据失败", "/menu/add")
 	} else {
@@ -79,7 +79,7 @@ func (c *MenuController) Edit() {
 		return
 	}
 	menu := models.Menu{Id: id}
-	models.DB.Find(&menu)
+	conn.Db.Find(&menu)
 	c.Data["menu"] = menu
 	c.Data["prevPage"] = c.Ctx.Request.Referer()
 	c.TplName = "backend/menu/edit.html"
@@ -103,7 +103,7 @@ func (c *MenuController) GoEdit() {
 	fmt.Println("-----------------------", relation)
 	//修改
 	menu := models.Menu{Id: id}
-	models.DB.Find(&menu)
+	conn.Db.Find(&menu)
 	menu.Title = title
 	menu.Link = link
 	menu.Position = position
@@ -112,7 +112,7 @@ func (c *MenuController) GoEdit() {
 	menu.Sort = sort
 	menu.Status = status
 
-	err2 := models.DB.Save(&menu).Error
+	err2 := conn.Db.Save(&menu).Error
 	if err2 != nil {
 		c.Error("修改数据失败", "/menu/edit?id="+strconv.Itoa(id))
 	} else {
@@ -128,7 +128,7 @@ func (c *MenuController) Delete() {
 		return
 	}
 	menu := models.Menu{Id: id}
-	models.DB.Delete(&menu)
+	conn.Db.Delete(&menu)
 
 	c.Success("删除数据成功", c.Ctx.Request.Referer())
 }
