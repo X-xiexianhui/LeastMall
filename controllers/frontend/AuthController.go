@@ -3,6 +3,7 @@ package frontend
 import (
 	"github.com/gin-gonic/gin"
 	"leastMall_gin/common"
+	"leastMall_gin/conn"
 	"leastMall_gin/models"
 	"net/http"
 	"regexp"
@@ -25,7 +26,7 @@ func (c *AuthController) GoLogin() {
 	password := c.GetString("password")
 	password = common.Md5(password)
 	var user []models.User
-	models.DB.Where("phone=? AND password=?", phone, password).Find(&user)
+	conn.Db.Where("phone=? AND password=?", phone, password).Find(&user)
 	if len(user) > 0 {
 		models.Cookie.Set(c.Ctx, "userinfo", user[0])
 		c.Data["json"] = map[string]interface{}{
@@ -66,7 +67,7 @@ func (c *AuthController) RegisterStep2() {
 		return
 	}
 	userTemp := []models.UserSms{}
-	models.DB.Where("sign=?", sign).Find(&userTemp)
+	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
 		c.Data["sign"] = sign
 		c.Data["phone_code"] = phone_code
@@ -88,7 +89,7 @@ func (c *AuthController) RegisterStep3() {
 		return
 	}
 	userTemp := []models.UserSms{}
-	models.DB.Where("sign=?", sign).Find(&userTemp)
+	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
 		c.Data["sign"] = sign
 		c.Data["sms_code"] = sms_code
@@ -137,7 +138,7 @@ func (c *AuthController) SendCode() {
 		return
 	}
 	user := []models.User{}
-	models.DB.Where("phone=?", phone).Find(&user)
+	conn.Db.Where("phone=?", phone).Find(&user)
 	if len(user) > 0 {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
@@ -152,9 +153,9 @@ func (c *AuthController) SendCode() {
 	sign := common.Md5(phone + add_day) //签名
 	sms_code := common.GetRandomNum()
 	userTemp := []models.UserSms{}
-	models.DB.Where("add_day=? AND phone=?", add_day, phone).Find(&userTemp)
+	conn.Db.Where("add_day=? AND phone=?", add_day, phone).Find(&userTemp)
 	var sendCount int
-	models.DB.Where("add_day=? AND ip=?", add_day, ip).Table("user_temp").Count(&sendCount)
+	conn.Db.Where("add_day=? AND ip=?", add_day, ip).Table("user_temp").Count(&sendCount)
 	//验证IP地址今天发送的次数是否合法
 	if sendCount <= 10 {
 		if len(userTemp) > 0 {
@@ -163,9 +164,9 @@ func (c *AuthController) SendCode() {
 				common.SendMsg(sms_code)
 				c.SetSession("sms_code", sms_code)
 				oneUserSms := models.UserSms{}
-				models.DB.Where("id=?", userTemp[0].Id).Find(&oneUserSms)
+				conn.Db.Where("id=?", userTemp[0].Id).Find(&oneUserSms)
 				oneUserSms.SendCount += 1
-				models.DB.Save(&oneUserSms)
+				conn.Db.Save(&oneUserSms)
 				c.Data["json"] = map[string]interface{}{
 					"success":  true,
 					"msg":      "短信发送成功",
@@ -195,7 +196,7 @@ func (c *AuthController) SendCode() {
 				AddTime:   int(common.GetUnix()),
 				Sign:      sign,
 			}
-			models.DB.Create(&oneUserSms)
+			conn.Db.Create(&oneUserSms)
 			c.Data["json"] = map[string]interface{}{
 				"success":  true,
 				"msg":      "短信发送成功",
@@ -222,7 +223,7 @@ func (c *AuthController) ValidateSmsCode() {
 	sms_code := c.GetString("sms_code")
 
 	userTemp := []models.UserSms{}
-	models.DB.Where("sign=?", sign).Find(&userTemp)
+	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) == 0 {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
@@ -277,7 +278,7 @@ func (c *AuthController) GoRegister() {
 		c.Redirect("/auth/registerStep1", 302)
 	}
 	userTemp := []models.UserSms{}
-	models.DB.Where("sign=?", sign).Find(&userTemp)
+	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
 	if len(userTemp) > 0 {
 		user := models.User{
@@ -285,7 +286,7 @@ func (c *AuthController) GoRegister() {
 			Password: common.Md5(password),
 			LastIp:   ip,
 		}
-		models.DB.Create(&user)
+		conn.Db.Create(&user)
 
 		models.Cookie.Set(c.Ctx, "userinfo", user)
 		c.Redirect("/", 302)
