@@ -2,10 +2,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="created by shirdon"/>
+    <meta name="author" content="created by XieXianHui"/>
     <title>会员登录</title>
     <link rel="stylesheet" href="/static/frontend/css/login.css"/>
     <script src="/static/frontend/js/jquery-1.10.1.js"></script>
+    <script src="/static/public/js/verifyCode.js"></script>
 </head>
 <body class="login_page">
 <!-- login -->
@@ -31,9 +32,7 @@
             <div class="username">
                 <div class="left fl">验证码：<input class="verificode" id="phone_code" type="text" name="phone_code"
                                                 placeholder="请输入验证码"/></div>
-                <div class="right fl">
-                {{create_captcha}}
-                </div>
+                <div class="right fl" id="verify_code"></div>
                 <div class="clear"></div>
             </div>
         </div>
@@ -58,6 +57,11 @@
             const phoneCodeId = $("input[name='captcha_id']").val();
             const prevPage = $("#prevPage").val();
             const reg = /^[\d]{11}$/;
+            const verifyFlag = $("#verify_code").validate(phone_code)
+            if (!verifyFlag) {
+                alert('验证码输入错误');
+                return false;
+            }
             if (!reg.test(phone)) {
                 alert('手机号输入错误');
                 return false;
@@ -74,8 +78,6 @@
             $.post('/auth/goLogin', {
                 phone: phone,
                 password: password,
-                phone_code: phone_code,
-                phoneCodeId: phoneCodeId,
                 crossDomain:true,
                 xhrFields: {
                     withCredentials: true    // 要在这里设置 跨域设置cookie
