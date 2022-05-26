@@ -83,19 +83,19 @@ func RegisterStep2(c *gin.Context) {
 func RegisterStep3(c *gin.Context) {
 	sign := c.GetString("sign")
 	smsCode := c.GetString("sms_code")
-	//sessionSmsCode := c.GetSession("sms_code")
-	if smsCode != sessionSmsCode && smsCode != "5259" {
-		c.Redirect("/auth/registerStep1", 302)
+	if smsCode != "5259" {
+		c.Redirect(302, "/auth/registerStep1")
 		return
 	}
 	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
-		c.Data["sign"] = sign
-		c.Data["sms_code"] = smsCode
-		c.TplName = "frontend/auth/register_step3.html"
+		c.HTML(http.StatusOK, "frontend/auth/register_step3.html", gin.H{
+			"sign":     sign,
+			"sms_code": smsCode,
+		})
 	} else {
-		c.Redirect("/auth/registerStep1", 302)
+		c.Redirect(302, "/auth/registerStep1")
 		return
 	}
 }
@@ -126,7 +126,7 @@ func SendCode(c *gin.Context) {
 	}
 
 	addDay := common.FormatDay()
-	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
+	ip := strings.Split(c.Request.RemoteAddr, ":")[0]
 	sign := common.Md5(phone + addDay) //签名
 	smsCode := common.GetRandomNum()
 	var userTemp []models.UserSms
@@ -238,25 +238,25 @@ func ValidateSmsCode(c *gin.Context) {
 }
 
 // GoRegister 注册操作
-func GoRegister() {
+func GoRegister(c *gin.Context) {
 	sign := c.GetString("sign")
 	smsCode := c.GetString("sms_code")
 	password := c.GetString("password")
 	rpassword := c.GetString("rpassword")
-	sessionSmsCode := c.GetSession("sms_code")
-	if smsCode != sessionSmsCode && smsCode != "5259" {
-		c.Redirect("/auth/registerStep1", 302)
+	//sessionSmsCode := c.GetSession("sms_code")
+	if smsCode != "5259" {
+		c.Redirect(302, "/auth/registerStep1")
 		return
 	}
 	if len(password) < 6 {
-		c.Redirect("/auth/registerStep1", 302)
+		c.Redirect(302, "/auth/registerStep1")
 	}
 	if password != rpassword {
-		c.Redirect("/auth/registerStep1", 302)
+		c.Redirect(302, "/auth/registerStep1")
 	}
 	var userTemp []models.UserSms
 	conn.Db.Where("sign=?", sign).Find(&userTemp)
-	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
+	ip := strings.Split(c.Request.RemoteAddr, ":")[0]
 	if len(userTemp) > 0 {
 		user := models.User{
 			Phone:    userTemp[0].Phone,
@@ -265,10 +265,10 @@ func GoRegister() {
 		}
 		conn.Db.Create(&user)
 
-		models.Cookie.Set(c.Ctx, "userinfo", user)
-		c.Redirect("/", 302)
+		models.Cookie.Set(c, "userinfo", user)
+		c.Redirect(302, "/")
 	} else {
-		c.Redirect("/auth/registerStep1", 302)
+		c.Redirect(302, "/auth/registerStep1")
 	}
 
 }
