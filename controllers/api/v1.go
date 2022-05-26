@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Get(c *gin.Context) {
+func GetV1(c *gin.Context) {
 	//c.Ctx.WriteString("api v1")
 	c.String(http.StatusOK, "api v1")
 
