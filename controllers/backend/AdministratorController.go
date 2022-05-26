@@ -1,12 +1,11 @@
 package backend
 
 import (
+	"leastMall_gin/common"
+	"leastMall_gin/conn"
+	"leastMall_gin/models"
 	"strconv"
 	"strings"
-
-	"LeastMall/common"
-
-	"LeastMall/models"
 )
 
 type AdministratorController struct {
@@ -14,15 +13,15 @@ type AdministratorController struct {
 }
 
 func (c *AdministratorController) Get() {
-	administrator := []models.Administrator{}
-	models.DB.Preload("Role").Find(&administrator)
+	var administrator []models.Administrator
+	conn.Db.Preload("Role").Find(&administrator)
 	c.Data["administratorList"] = administrator
 	c.TplName = "backend/administrator/index.html"
 }
 
 func (c *AdministratorController) Add() {
 	role := []models.Role{}
-	models.DB.Find(&role)
+	conn.Db.Find(&role)
 	c.Data["roleList"] = role
 	c.TplName = "backend/administrator/add.html"
 }
@@ -44,7 +43,7 @@ func (c *AdministratorController) GoAdd() {
 		return
 	}
 	administratorList := []models.Administrator{}
-	models.DB.Where("username=?", username).Find(&administratorList)
+	conn.Db.Where("username=?", username).Find(&administratorList)
 	if len(administratorList) > 0 {
 		c.Error("用户名已存在", "/administrator/add")
 		return
@@ -58,7 +57,7 @@ func (c *AdministratorController) GoAdd() {
 	administrator.Status = 1
 	administrator.AddTime = int(common.GetUnix())
 	administrator.RoleId = roleId
-	err := models.DB.Create(&administrator).Error
+	err := conn.Db.Create(&administrator).Error
 	if err != nil {
 		c.Error("增加管理员失败", "/administrator/add")
 		return
@@ -73,10 +72,10 @@ func (c *AdministratorController) Edit() {
 		return
 	}
 	administrator := models.Administrator{Id: id}
-	models.DB.Find(&administrator)
+	conn.Db.Find(&administrator)
 	c.Data["administrator"] = administrator
 	role := []models.Role{}
-	models.DB.Find(&role)
+	conn.Db.Find(&role)
 	c.Data["roleList"] = role
 	c.TplName = "backend/administrator/edit.html"
 }
@@ -107,13 +106,13 @@ func (c *AdministratorController) GoEdit() {
 		password = common.Md5(password)
 	}
 	administrator := models.Administrator{Id: id}
-	models.DB.Find(&administrator)
+	conn.Db.Find(&administrator)
 	administrator.Username = username
 	administrator.Password = password
 	administrator.Mobile = mobile
 	administrator.Email = email
 	administrator.RoleId = roleId
-	err2 := models.DB.Save(&administrator).Error
+	err2 := conn.Db.Save(&administrator).Error
 	if err2 != nil {
 		c.Error("修改管理员失败", "/administrator/edit?id="+strconv.Itoa(id))
 	} else {
@@ -128,6 +127,6 @@ func (c *AdministratorController) Delete() {
 		return
 	}
 	administrator := models.Administrator{Id: id}
-	models.DB.Delete(&administrator)
+	conn.Db.Delete(&administrator)
 	c.Success("删除管理员成功", "/administrator")
 }
