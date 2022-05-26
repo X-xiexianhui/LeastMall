@@ -1,9 +1,9 @@
 package api
 
 import (
-	"LeastMall/models"
-
 	"github.com/astaxie/beego"
+	"leastMall_gin/conn"
+	"leastMall_gin/models"
 )
 
 type V1Controller struct {
@@ -15,8 +15,8 @@ func (c *V1Controller) Get() {
 }
 
 func (c *V1Controller) Menu() {
-	menu := []models.Menu{}
-	models.DB.Find(&menu)
+	var menu []models.Menu
+	conn.Db.Find(&menu)
 	c.Data["json"] = menu
 	c.ServeJSON()
 }
