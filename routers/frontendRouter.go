@@ -7,6 +7,7 @@ import (
 func init() {
 	Router.GET("/", frontend.IndexController)
 	Router.GET("/category_:id([0-9]+).html", frontend.CategoryList)
+	Router.GET("/auth/login", frontend.Login)
 }
 
 //func Init() {

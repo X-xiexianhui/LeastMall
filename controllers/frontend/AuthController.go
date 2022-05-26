@@ -1,6 +1,8 @@
 package frontend
 
 import (
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"regexp"
 	"strings"
 
@@ -12,9 +14,10 @@ type AuthController struct {
 	BaseController
 }
 
-func (c *AuthController) Login() {
-	c.Data["prevPage"] = c.Ctx.Request.Referer()
-	c.TplName = "frontend/auth/login.html"
+func Login(c *gin.Context) {
+	//c.Data["prevPage"] = c.Ctx.Request.Referer()
+	//c.TplName = "frontend/auth/login.html"
+	c.HTML(http.StatusOK, "frontend/auth/login.html", gin.H{"prevPage": c.Request.Referer()})
 }
 
 //登陆

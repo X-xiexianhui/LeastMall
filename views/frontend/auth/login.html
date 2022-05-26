@@ -63,16 +63,17 @@
                 alert('验证匹配！');
             },
             error : function() {
-                alert('验证码不匹配！');
+                return alert('验证码不匹配！');
             }
         });
         $("#goLogin").click(function (e) {
             var phone = $('#phone').val();
             var password = $('#password').val();
-            var phone_code = $('#phone_code').val();
-            var phoneCodeId = $("input[name='captcha_id']").val();
+            // var phone_code = $('#phone_code').val();
+            // var phoneCodeId = $("input[name='captcha_id']").val();
             var prevPage = $("#prevPage").val();
             var reg = /^[\d]{11}$/;
+            $.checkCode()
             if (!reg.test(phone)) {
                 alert('手机号输入错误');
                 return false;
