@@ -1,22 +1,22 @@
 package api
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/gin-gonic/gin"
 	"leastMall_gin/conn"
 	"leastMall_gin/models"
+	"net/http"
 )
 
-type V1Controller struct {
-	beego.Controller
+func Get(c *gin.Context) {
+	//c.Ctx.WriteString("api v1")
+	c.String(http.StatusOK, "api v1")
+
 }
 
-func (c *V1Controller) Get() {
-	c.Ctx.WriteString("api v1")
-}
-
-func (c *V1Controller) Menu() {
+func Menu(c *gin.Context) {
 	var menu []models.Menu
 	conn.Db.Find(&menu)
-	c.Data["json"] = menu
-	c.ServeJSON()
+	//c.Data["json"] = menu
+	//c.ServeJSON()
+	c.JSON(http.StatusOK, menu)
 }

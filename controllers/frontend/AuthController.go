@@ -2,12 +2,11 @@ package frontend
 
 import (
 	"github.com/gin-gonic/gin"
+	"leastMall_gin/common"
+	"leastMall_gin/models"
 	"net/http"
 	"regexp"
 	"strings"
-
-	"LeastMall/common"
-	"LeastMall/models"
 )
 
 type AuthController struct {
@@ -24,17 +23,6 @@ func Login(c *gin.Context) {
 func (c *AuthController) GoLogin() {
 	phone := c.GetString("phone")
 	password := c.GetString("password")
-	phone_code := c.GetString("phone_code")
-	phoneCodeId := c.GetString("phoneCodeId")
-	identifyFlag := models.Cpt.Verify(phoneCodeId, phone_code)
-	if !identifyFlag {
-		c.Data["json"] = map[string]interface{}{
-			"success": false,
-			"msg":     "输入的图形验证码不正确",
-		}
-		c.ServeJSON()
-		return
-	}
 	password = common.Md5(password)
 	var user []models.User
 	models.DB.Where("phone=? AND password=?", phone, password).Find(&user)
