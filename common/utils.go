@@ -4,16 +4,12 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"github.com/astaxie/beego"
 	"github.com/gomarkdown/markdown"
-	"github.com/hunterhug/go_image"
 	_ "github.com/jinzhu/gorm"
 	"io/ioutil"
 	"math/rand"
-	"path"
 	"regexp"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -45,7 +41,7 @@ func GetDate() string {
 func Md5(str string) string {
 	m := md5.New()
 	m.Write([]byte(str))
-	return string(hex.EncodeToString(m.Sum(nil)))
+	return hex.EncodeToString(m.Sum(nil))
 }
 
 // VerifyEmail 验证邮箱
@@ -71,62 +67,25 @@ func GenerateOrderId() string {
 func SendMsg(str string) {
 	// 短信验证码需要到相关网站申请
 	// 目前先固定一个值
-	ioutil.WriteFile("test_send.txt", []byte(str), 06666)
-}
-
-// ResizeImage 重新裁剪图片
-func ResizeImage(filename string) {
-	extName := path.Ext(filename)
-	resizeImage := strings.Split(beego.AppConfig.String("resizeImageSize"), ",")
-
-	for i := 0; i < len(resizeImage); i++ {
-		w := resizeImage[i]
-		width, _ := strconv.Atoi(w)
-		savepath := filename + "_" + w + "x" + w + extName
-		err := go_image.ThumbnailF2F(filename, savepath, width, width)
-		if err != nil {
-			beego.Error(err)
-		}
-	}
-
-}
-
-//格式化图片
-func FormatImage(picName string) string {
-	ossStatus, err := beego.AppConfig.Bool("ossStatus")
+	err := ioutil.WriteFile("test_send.txt", []byte(str), 06666)
 	if err != nil {
-		//判断目录前面是否有/
-		flag := strings.Contains(picName, "/static")
-		if flag {
-			return picName
-		}
-		return "/" + picName
-	}
-	if ossStatus {
-		return beego.AppConfig.String("ossDomain") + "/" + picName
-	} else {
-		flag := strings.Contains(picName, "/static")
-		if flag {
-			return picName
-		}
-		return "/" + picName
-
+		return
 	}
 }
 
-//格式化级标题
+// FormatAttribute 格式化级标题
 func FormatAttribute(str string) string {
 	md := []byte(str)
 	htmlByte := markdown.ToHTML(md, nil, nil)
 	return string(htmlByte)
 }
 
-//乘法的函数
+// Mul 乘法的函数
 func Mul(price float64, num int) float64 {
 	return price * float64(num)
 }
 
-//封装一个生产随机数的方法
+// GetRandomNum 封装一个生产随机数的方法
 func GetRandomNum() string {
 	var str string
 	for i := 0; i < 4; i++ {
