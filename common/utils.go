@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-//时间戳转换为日期格式
+// TimestampToDate 时间戳转换为日期格式
 func TimestampToDate(timestamp int) string {
 
 	t := time.Unix(int64(timestamp), 0)
@@ -25,13 +25,13 @@ func TimestampToDate(timestamp int) string {
 	return t.Format("2006-01-02 15:04:05")
 }
 
-//获取当前时间戳
+// GetUnix 获取当前时间戳
 func GetUnix() int64 {
 	fmt.Println(time.Now().Unix())
 	return time.Now().Unix()
 }
 
-//获取时间戳Nano时间
+// GetUnixNano 获取时间戳Nano时间
 func GetUnixNano() int64 {
 	return time.Now().UnixNano()
 }
@@ -41,40 +41,40 @@ func GetDate() string {
 	return time.Now().Format(template)
 }
 
-//Md5加密
+// Md5 Md5加密
 func Md5(str string) string {
 	m := md5.New()
 	m.Write([]byte(str))
 	return string(hex.EncodeToString(m.Sum(nil)))
 }
 
-//验证邮箱
+// VerifyEmail 验证邮箱
 func VerifyEmail(email string) bool {
 	pattern := `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*` //匹配电子邮箱
 	reg := regexp.MustCompile(pattern)
 	return reg.MatchString(email)
 }
 
-//获取日期
+// FormatDay 获取日期
 func FormatDay() string {
 	template := "20060102"
 	return time.Now().Format(template)
 }
 
-//生成订单号
+// GenerateOrderId 生成订单号
 func GenerateOrderId() string {
 	template := "200601021504"
 	return time.Now().Format(template) + GetRandomNum()
 }
 
-//发送验证码
+// SendMsg 发送验证码
 func SendMsg(str string) {
 	// 短信验证码需要到相关网站申请
 	// 目前先固定一个值
 	ioutil.WriteFile("test_send.txt", []byte(str), 06666)
 }
 
-//重新裁剪图片
+// ResizeImage 重新裁剪图片
 func ResizeImage(filename string) {
 	extName := path.Ext(filename)
 	resizeImage := strings.Split(beego.AppConfig.String("resizeImageSize"), ",")
