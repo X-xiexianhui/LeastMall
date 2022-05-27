@@ -15,5 +15,5 @@ func main() {
 	//日志着色
 	gin.ForceConsoleColor()
 	//启动gin
-	_ = routers.Router.Run(":8080")
+	_ = routers.Router.Run(":81")
 }
