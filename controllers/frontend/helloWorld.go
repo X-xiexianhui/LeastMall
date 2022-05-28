@@ -12,5 +12,5 @@ import (
 )
 
 func HelloWorldController(c *gin.Context) {
-	c.JSON(http.StatusOK, "helloW")
+	c.JSON(http.StatusOK, "helloWorld")
 }
