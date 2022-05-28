@@ -8,4 +8,8 @@ package routers
 
 import "github.com/gin-gonic/gin"
 
-var Router = gin.Default()
+var Router *gin.Engine
+
+func init() {
+	Router = gin.Default()
+}
