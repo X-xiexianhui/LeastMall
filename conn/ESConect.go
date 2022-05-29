@@ -14,6 +14,7 @@ import (
 
 var EsClient *elastic.Client
 
+// init函数实饿汉式单例模式
 func init() {
 	cfg := models.Conf.ES
 	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.Host+":"+cfg.Port), elastic.SetSniff(cfg.Sniff))
