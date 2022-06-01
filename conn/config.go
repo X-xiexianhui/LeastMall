@@ -1,10 +1,10 @@
-// Package models
+// Package conn
 /*
    @author:xie
    @date:2022/5/24
    @note:
 */
-package models
+package conn
 
 import (
 	"github.com/spf13/viper"

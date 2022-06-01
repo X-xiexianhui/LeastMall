@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"leastMall_gin/conn"
 )
 
 //定义结构体  缓存结构体 私有
@@ -11,14 +12,14 @@ type cookie struct{}
 // Set 写入数据的方法
 func (c cookie) Set(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetCookie(key, string(bytes), 3600*24*30, "/", Conf.Domain, false, true)
+	ctx.SetCookie(key, string(bytes), 3600*24*30, "/", conn.Conf.Domain, false, true)
 
 }
 
 // Remove 删除数据的方法
 func (c cookie) Remove(ctx *gin.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetCookie(key, string(bytes), -1, "/", Conf.Domain, false, true)
+	ctx.SetCookie(key, string(bytes), -1, "/", conn.Conf.Domain, false, true)
 
 }
 

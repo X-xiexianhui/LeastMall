@@ -9,14 +9,13 @@ package conn
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
-	"leastMall_gin/models"
 	"log"
 )
 
 var Redis *redis.Client
 
 func init() {
-	cache := models.Conf.Redis
+	cache := Conf.Redis
 	Redis = redis.NewClient(&redis.Options{
 		Addr:        cache.Host + ":" + cache.Port,
 		Password:    cache.Password,

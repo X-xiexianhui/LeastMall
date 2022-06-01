@@ -8,7 +8,6 @@ package conn
 
 import (
 	"github.com/olivere/elastic/v7"
-	"leastMall_gin/models"
 	"log"
 )
 
@@ -16,7 +15,7 @@ var EsClient *elastic.Client
 
 // init函数实饿汉式单例模式
 func init() {
-	cfg := models.Conf.ES
+	cfg := Conf.ES
 	EsClient, err = elastic.NewClient(elastic.SetURL(cfg.Host+":"+cfg.Port), elastic.SetSniff(cfg.Sniff))
 	if err != nil {
 		log.Println(err)
