@@ -9,7 +9,7 @@ package models
 type Banner struct {
 	Id        int
 	ProductId int
-	picture   string
+	Picture   string
 }
 
 func (b *Banner) Create() {
