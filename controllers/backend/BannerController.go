@@ -17,8 +17,8 @@ import (
 )
 
 func GetBanner(c *gin.Context) {
-	banner := backendFactory.SimpleFactory("banner")
-	conn.Db.Table("banner").Find(banner)
+	var banner []models.Banner
+	conn.Db.Table("banner").Find(&banner)
 	c.JSON(200, models.NewResponse(true, banner, "查询轮播图"))
 }
 
@@ -45,7 +45,7 @@ func AddBanner(c *gin.Context) {
 }
 func DeleteBanner(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Query("id"), 10, 32)
-	banner := models.Banner{}
+	banner := backendFactory.SimpleFactory("banner")
 	if err := conn.Db.Where("id=?", id).Delete(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "删除图片失败", "原因："+err.Error()))
 	}
