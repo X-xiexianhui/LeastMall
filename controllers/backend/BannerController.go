@@ -22,7 +22,7 @@ func GetBanner(c *gin.Context) {
 	c.JSON(200, models.NewResponse(true, banner, "查询轮播图"))
 }
 
-func UpdateBanner(c *gin.Context) {
+func AddBanner(c *gin.Context) {
 	productId, _ := strconv.ParseInt(c.PostForm("product_id"), 10, 32)
 	file, err := c.FormFile("file")
 	if err != nil {
