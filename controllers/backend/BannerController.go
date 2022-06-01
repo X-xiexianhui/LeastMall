@@ -45,7 +45,8 @@ func AddBanner(c *gin.Context) {
 }
 func DeleteBanner(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Query("id"), 10, 32)
-	if err := conn.Db.Where("id=?", id).Delete(&models.Banner{}).Error; err != nil {
+	banner := models.Banner{}
+	if err := conn.Db.Where("id=?", id).Delete(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "删除图片失败", "原因："+err.Error()))
 	}
 	c.JSON(200, models.NewResponse(true, "删除图片成功", "成功"))
