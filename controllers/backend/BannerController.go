@@ -59,3 +59,12 @@ func QueryBanner(c *gin.Context) {
 	}
 	c.JSON(200, models.NewResponse(true, banner, "查询成功"))
 }
+
+func UpdateBanner(c *gin.Context) {
+	updateColumn := c.PostFormMap("updateColumn")
+	banner := models.Banner{}
+	if err := conn.Db.Model(&banner).Updates(updateColumn).Error; err != nil {
+		c.JSON(500, models.NewResponse(false, "修改轮播图失败", "原因："+err.Error()))
+	}
+	c.JSON(200, models.NewResponse(true, "修改轮播图成功", "操作成功"))
+}
