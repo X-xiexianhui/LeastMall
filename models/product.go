@@ -7,10 +7,10 @@
 package models
 
 type Product struct {
-	id       int
-	name     string
-	price    float32
-	pictures []string
+	ProductId   int
+	ProductName string
+	price       float32
+	pictures    []string
 }
 
 func (p *Product) Create() {
