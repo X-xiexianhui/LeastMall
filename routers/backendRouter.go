@@ -10,5 +10,7 @@ func init() {
 		backGroup.DELETE("/banner/delete", backend.DeleteBanner)
 		backGroup.GET("/banner/query", backend.QueryBanner)
 		backGroup.POST("/banner/update", backend.UpdateBanner)
+
+		backGroup.GET("/product/get", backend.GetProducts)
 	}
 }

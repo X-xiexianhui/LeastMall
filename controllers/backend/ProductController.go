@@ -15,5 +15,10 @@ import (
 func GetProducts(c *gin.Context) {
 	var product []models.Product
 	var image []string
-	conn.Db.Table("product").Model(product).Related(image, "images")
+	err := conn.Db.Table("product").Model(product).Related(image, "images").Error
+	if err != nil {
+		c.JSON(500, models.NewResponse(false, "获取商品列表失败", "原因："+err.Error()))
+		return
+	}
+	c.JSON(200, models.NewResponse(true, product, "获取商品列表成功"))
 }
