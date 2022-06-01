@@ -24,6 +24,7 @@ func init() {
 	host := mysql.Host
 	port := mysql.Port
 	url := fmt.Sprintf("%s:%s@tcp(%s:%s)/shop?charset=utf8&parseTime=True&loc=Local", user, password, host, port)
+	fmt.Println(url)
 	Db, err = gorm.Open("mysql", url)
 	if err != nil {
 		log.Panicln("数据库连接失败……")
