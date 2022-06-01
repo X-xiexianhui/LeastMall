@@ -18,7 +18,7 @@ import (
 
 func GetBanner(c *gin.Context) {
 	banner := backendFactory.SimpleFactory("banner")
-	conn.Db.Table("banner").Find(&banner)
+	conn.Db.Table("banner").Find(banner)
 	c.JSON(200, models.NewResponse(true, banner, "查询轮播图"))
 }
 
