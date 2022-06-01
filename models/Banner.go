@@ -7,9 +7,9 @@
 package models
 
 type Banner struct {
-	Id        int
-	ProductId int
-	Picture   string
+	Id        int64  `json:"id"`
+	ProductId int64  `json:"product_id"`
+	Picture   string `json:"picture"`
 }
 
 func (b *Banner) Create() {
