@@ -26,11 +26,11 @@ func AddBanner(c *gin.Context) {
 	productId, _ := strconv.ParseInt(c.PostForm("product_id"), 10, 32)
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(500, models.NewResponse(false, "上传文件失败", "原因："+err.Error()))
+		c.JSON(500, models.NewResponse(false, "上传图片失败", "原因："+err.Error()))
 	}
 	picture, err := file.Open()
 	if err != nil {
-		c.JSON(500, models.NewResponse(false, "上传文件失败", "原因："+err.Error()))
+		c.JSON(500, models.NewResponse(false, "上传图片失败", "原因："+err.Error()))
 	}
 	data, err := ioutil.ReadAll(picture)
 	base64Str := base64.StdEncoding.EncodeToString(data)
