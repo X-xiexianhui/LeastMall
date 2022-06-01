@@ -43,3 +43,10 @@ func AddBanner(c *gin.Context) {
 	}
 	c.JSON(200, models.NewResponse(true, "上传图片成功", "成功"))
 }
+func DeleteBanner(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.PostForm("id"), 10, 32)
+	if err := conn.Db.Where("id=?", id).Delete(&models.Banner{}).Error; err != nil {
+		c.JSON(500, models.NewResponse(false, "删除图片失败", "原因："+err.Error()))
+	}
+	c.JSON(200, models.NewResponse(true, "删除图片成功", "成功"))
+}
