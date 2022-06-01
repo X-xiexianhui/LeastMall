@@ -11,7 +11,7 @@ type Product struct {
 	ProductName  string
 	Price        float32
 	Descriptions string
-	Pictures     []string
+	Images       []string
 }
 
 func (p *Product) Create() {
