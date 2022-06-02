@@ -23,4 +23,5 @@ func init() {
 	Router.GET("/product/get", controllers.GetProducts)
 	Router.POST("/product/add", controllers.AddProduct)
 	Router.DELETE("/product/delete", controllers.DeleteProduct)
+	Router.POST("/product/update", controllers.UpdateProduct)
 }

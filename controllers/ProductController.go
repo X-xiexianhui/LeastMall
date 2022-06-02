@@ -60,3 +60,14 @@ func DeleteProduct(c *gin.Context) {
 	}
 	c.JSON(200, models.NewResponse(true, "删除成功", "操作成功"))
 }
+
+func UpdateProduct(c *gin.Context) {
+	id := c.PostForm("id")
+	update := c.PostFormMap("update")
+	file, err := c.FormFile("cover")
+	if err != nil {
+		cover := common.FormatBase64(file)
+		update["cover"] = cover
+	}
+	conn.Db.Table("product").Where("id=?", id).Updates(update)
+}
