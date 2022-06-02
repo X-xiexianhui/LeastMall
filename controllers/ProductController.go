@@ -54,3 +54,12 @@ func AddProduct(c *gin.Context) {
 	tx.Commit()
 	c.JSON(200, models.NewResponse(true, "添加商品成功", "操作成功"))
 }
+
+func DeleteProduct(c *gin.Context) {
+	id := c.Query("id")
+	err := conn.Db.Table("product").Delete(&models.Product{}, id).Error
+	if err != nil {
+		c.JSON(500, models.NewResponse(false, "删除商品失败", "原因："+err.Error()))
+	}
+	c.JSON(200, models.NewResponse(true, "删除成功", "操作成功"))
+}
