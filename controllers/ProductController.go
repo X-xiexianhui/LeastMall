@@ -49,6 +49,6 @@ func AddProduct(c *gin.Context) {
 			Image:     image,
 		})
 	}
-	conn.Db.Table("product").Create(images)
+	conn.Db.Table("product").Create(&images)
 	conn.Db.Commit()
 }
