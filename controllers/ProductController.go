@@ -36,19 +36,7 @@ func AddProduct(c *gin.Context) {
 		Descriptions: descriptions,
 		Cover:        cover,
 	}
-	//商品相册
-	//form, _ := c.MultipartForm()
-	//img := form.File["images"]
-	//var images []models.Image
 	conn.Db.Table("product").Create(&product)
-	//for _, img := range img {
-	//	image := common.FormatBase64(img)
-	//	images = append(images, models.Image{
-	//		ProductId: product.Id,
-	//		Image:     image,
-	//	})
-	//}
-	//tx.Table("images").Create(&images)
 	c.JSON(200, models.NewResponse(true, "添加商品成功", "操作成功"))
 }
 
