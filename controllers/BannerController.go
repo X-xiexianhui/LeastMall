@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"leastMall_gin/conn"
-	"leastMall_gin/factory/backendFactory"
+	"leastMall_gin/factory"
 	"leastMall_gin/models"
 	"strconv"
 )
@@ -45,7 +45,7 @@ func AddBanner(c *gin.Context) {
 }
 func DeleteBanner(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Query("id"), 10, 32)
-	banner := backendFactory.SimpleFactory("banner")
+	banner := factory.SimpleFactory("banner")
 	if err := conn.Db.Where("id=?", id).Delete(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "删除图片失败", "原因："+err.Error()))
 	}

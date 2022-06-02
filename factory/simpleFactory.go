@@ -4,7 +4,7 @@
    @date:2022/6/1
    @note:
 */
-package backendFactory
+package factory
 
 import "leastMall_gin/models"
 
