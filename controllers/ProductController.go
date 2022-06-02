@@ -7,6 +7,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"leastMall_gin/common"
 	"leastMall_gin/conn"
@@ -47,6 +48,7 @@ func AddProduct(c *gin.Context) {
 			ProductId: product.Id,
 			Image:     image,
 		})
+		fmt.Println(images[0].ProductId)
 	}
 	conn.Db.Table("images").Create(&images)
 }
