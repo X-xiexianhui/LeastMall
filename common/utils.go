@@ -2,12 +2,14 @@ package common
 
 import (
 	"crypto/md5"
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"github.com/gomarkdown/markdown"
 	_ "github.com/jinzhu/gorm"
 	"io/ioutil"
 	"math/rand"
+	"mime/multipart"
 	"regexp"
 	"strconv"
 	"time"
@@ -93,4 +95,11 @@ func GetRandomNum() string {
 		str += strconv.Itoa(current)
 	}
 	return str
+}
+
+func FormatBase64(img *multipart.FileHeader) string {
+	picture, _ := img.Open()
+	data, _ := ioutil.ReadAll(picture)
+	base64Str := base64.StdEncoding.EncodeToString(data)
+	return base64Str
 }

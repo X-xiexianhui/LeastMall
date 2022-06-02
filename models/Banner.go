@@ -6,11 +6,11 @@
 */
 package models
 
-type Banner struct {
+type Image struct {
 	Id        int64  `json:"id"`
 	ProductId int64  `json:"product_id"`
-	Picture   string `json:"picture"`
+	Image     string `json:"picture"`
 }
 
-func (b *Banner) Create() {
+func (b *Image) Create() {
 }

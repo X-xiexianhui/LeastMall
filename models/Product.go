@@ -9,7 +9,7 @@ package models
 type Product struct {
 	ProductId    int     `json:"product_id"`
 	ProductName  string  `json:"product_name"`
-	Price        float32 `json:"price"`
+	Price        float64 `json:"price"`
 	Descriptions string  `json:"descriptions"`
 	Cover        string  `json:"cover"`
 }

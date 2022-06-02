@@ -17,7 +17,7 @@ import (
 )
 
 func GetBanner(c *gin.Context) {
-	var banner []models.Banner
+	var banner []models.Image
 	conn.Db.Table("banner").Find(&banner)
 	c.JSON(200, models.NewResponse(true, banner, "查询轮播图"))
 }
@@ -34,9 +34,9 @@ func AddBanner(c *gin.Context) {
 	}
 	data, err := ioutil.ReadAll(picture)
 	base64Str := base64.StdEncoding.EncodeToString(data)
-	banner := models.Banner{
+	banner := models.Image{
 		ProductId: productId,
-		Picture:   base64Str,
+		Image:     base64Str,
 	}
 	if err := conn.Db.Table("banner").Create(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "图片写入数据库失败", "原因："+err.Error()))
@@ -54,7 +54,7 @@ func DeleteBanner(c *gin.Context) {
 
 func QueryBanner(c *gin.Context) {
 	productId, _ := strconv.ParseInt(c.Query("product_id"), 10, 32)
-	banner := models.Banner{}
+	banner := models.Image{}
 	if err := conn.Db.Where("product_id=?", productId).First(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "查询轮播图失败", "原因:"+err.Error()))
 	}
@@ -63,7 +63,7 @@ func QueryBanner(c *gin.Context) {
 
 func UpdateBanner(c *gin.Context) {
 	updateColumn := c.PostFormMap("updateColumn")
-	banner := models.Banner{}
+	banner := models.Image{}
 	if err := conn.Db.Model(&banner).Updates(updateColumn).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "修改轮播图失败", "原因："+err.Error()))
 	}
