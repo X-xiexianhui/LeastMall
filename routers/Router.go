@@ -25,7 +25,7 @@ func init() {
 	Router.POST("/product/add", controllers.AddProduct)
 	Router.DELETE("/product/delete", controllers.DeleteProduct)
 	Router.POST("/product/update", controllers.UpdateProduct)
-	//商品相册api
+	//商品图片api
 	Router.GET("/image/get", controllers.GetImage)
 	Router.POST("/image/add", controllers.AddImages)
 	Router.DELETE("/image/delete", controllers.DeleteImage)
