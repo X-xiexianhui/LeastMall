@@ -7,7 +7,7 @@
 package models
 
 type Product struct {
-	ProductId    int64   `json:"product_id"`
+	Id           int64   `json:"id" gorm:"primary_key auto increment"`
 	ProductName  string  `json:"product_name"`
 	Price        float64 `json:"price"`
 	Descriptions string  `json:"descriptions"`
