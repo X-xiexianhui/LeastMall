@@ -71,3 +71,27 @@ func UpdateProduct(c *gin.Context) {
 	}
 	conn.Db.Table("product").Where("id=?", id).Updates(update)
 }
+
+func AddImages(c *gin.Context) {
+	//商品相册
+	productId, _ := strconv.ParseInt(c.PostForm("product_id"), 10, 64)
+	form, _ := c.MultipartForm()
+	img := form.File["images"]
+	var images []models.Image
+	for _, img := range img {
+		image := common.FormatBase64(img)
+		images = append(images, models.Image{
+			ProductId: productId,
+			Image:     image,
+		})
+	}
+	conn.Db.Table("images").Create(&images)
+	c.JSON(200, models.NewResponse(true, "添加图片成功", "操作成功"))
+}
+
+func GetImage(c *gin.Context) {
+	productId, _ := strconv.ParseInt(c.PostForm("product_id"), 10, 64)
+	var images []models.Image
+	conn.Db.Table("images").Where("product_id=?", productId).Find(&images)
+	c.JSON(200, models.NewResponse(true, images, "获取商品图片成功"))
+}
