@@ -40,8 +40,8 @@ func AddProduct(c *gin.Context) {
 	form, _ := c.MultipartForm()
 	img := form.File["images"]
 	var images []models.Image
-	conn.Db.Begin()
-	conn.Db.Table("product").Create(&product)
+	tx := conn.Db.Begin()
+	tx.Table("product").Create(&product)
 	for _, img := range img {
 		image := common.FormatBase64(img)
 		images = append(images, models.Image{
@@ -49,6 +49,7 @@ func AddProduct(c *gin.Context) {
 			Image:     image,
 		})
 	}
-	conn.Db.Table("product").Create(&images)
-	conn.Db.Commit()
+	tx.Table("images").Create(&images)
+	tx.Rollback()
+	tx.Commit()
 }
