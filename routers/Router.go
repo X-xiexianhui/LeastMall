@@ -21,5 +21,5 @@ func init() {
 	Router.POST("/banner/update", controllers.UpdateBanner)
 
 	Router.GET("/product/get", controllers.GetProducts)
-	Router.POST("/product/add")
+	Router.POST("/product/add", controllers.AddProduct)
 }
