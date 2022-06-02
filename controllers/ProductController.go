@@ -4,7 +4,7 @@
    @date:2022/6/1
    @note:
 */
-package backend
+package controllers
 
 import (
 	"github.com/gin-gonic/gin"
