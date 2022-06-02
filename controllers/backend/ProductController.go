@@ -38,11 +38,11 @@ func AddProduct(c *gin.Context) {
 	}
 	//商品相册
 	form, _ := c.MultipartForm()
-	imgs := form.File["images"]
+	img := form.File["images"]
 	var images []models.Image
 	conn.Db.Begin()
 	conn.Db.Table("product").Create(&product)
-	for _, img := range imgs {
+	for _, img := range img {
 		image := common.FormatBase64(img)
 		images = append(images, models.Image{
 			ProductId: product.ProductId,
