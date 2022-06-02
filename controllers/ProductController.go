@@ -92,6 +92,18 @@ func AddImages(c *gin.Context) {
 func GetImage(c *gin.Context) {
 	productId, _ := strconv.ParseInt(c.PostForm("product_id"), 10, 64)
 	var images []models.Image
-	conn.Db.Table("images").Where("product_id=?", productId).Find(&images)
+	err := conn.Db.Table("images").Where("product_id=?", productId).Find(&images).Error
+	if err != nil {
+		c.JSON(500, models.NewResponse(false, images, "获取商品图片失败"))
+	}
 	c.JSON(200, models.NewResponse(true, images, "获取商品图片成功"))
+}
+
+func DeleteImage(c *gin.Context) {
+	id := c.PostForm("id")
+	err := conn.Db.Table("images").Delete(&models.Image{}, id).Error
+	if err != nil {
+		c.JSON(500, models.NewResponse(false, "删除图片失败", "操作失败"))
+	}
+	c.JSON(200, models.NewResponse(true, "删除图片成功", "操作成功"))
 }
