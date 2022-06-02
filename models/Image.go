@@ -9,7 +9,7 @@ package models
 type Image struct {
 	Id        int64  `json:"id"`
 	ProductId int64  `json:"product_id"`
-	Image     string `json:"picture"`
+	Image     string `json:"image"`
 }
 
 func (b *Image) Create() {
