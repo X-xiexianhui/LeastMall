@@ -8,9 +8,8 @@ package conn
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"log"
 )
 
@@ -18,14 +17,14 @@ var Db *gorm.DB
 var err error
 
 func init() {
-	mysql := Conf.Mysql
-	user := mysql.User
-	password := mysql.Password
-	host := mysql.Host
-	port := mysql.Port
+	mysqlConfig := Conf.Mysql
+	user := mysqlConfig.User
+	password := mysqlConfig.Password
+	host := mysqlConfig.Host
+	port := mysqlConfig.Port
 	url := fmt.Sprintf("%s:%s@tcp(%s:%s)/shop?charset=utf8&parseTime=True&loc=Local", user, password, host, port)
 	fmt.Println(url)
-	Db, err = gorm.Open("mysql", url)
+	Db, err = gorm.Open(mysql.Open(url), &gorm.Config{})
 	if err != nil {
 		log.Panicln("数据库连接失败……")
 	}
