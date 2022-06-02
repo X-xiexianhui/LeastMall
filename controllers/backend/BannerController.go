@@ -38,7 +38,7 @@ func AddBanner(c *gin.Context) {
 		ProductId: productId,
 		Image:     base64Str,
 	}
-	if err := conn.Db.Table("banner").Create(&banner).Error; err != nil {
+	if err := conn.Db.Table("image").Create(&banner).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "图片写入数据库失败", "原因："+err.Error()))
 	}
 	c.JSON(200, models.NewResponse(true, "上传图片成功", "成功"))
