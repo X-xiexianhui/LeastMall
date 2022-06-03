@@ -104,18 +104,6 @@ func Update(product models.Product) {
 	fmt.Printf("update %s\n", res.Result)
 }
 
-// Gets 查找
-func Gets(id string) {
-	//通过id查找
-	get1, err := conn.EsClient.Get().Index("product").Type("_doc").Id(id).Do(context.Background())
-	if err != nil {
-		fmt.Println("查找失败：" + err.Error())
-	}
-	if get1.Found {
-		fmt.Printf("Got document %s in version %d from index %s, type %s\n", get1.Id, get1.Version, get1.Index, get1.Type)
-	}
-}
-
 // Query 搜索
 func Query(c *gin.Context) {
 	keyWord := c.Query("keyWord")
