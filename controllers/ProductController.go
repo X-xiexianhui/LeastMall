@@ -37,6 +37,7 @@ func AddProduct(c *gin.Context) {
 		Cover:        cover,
 	}
 	conn.Db.Table("product").Create(&product)
+	Add(product)
 	c.JSON(200, models.NewResponse(true, "添加商品成功", "操作成功"))
 }
 
@@ -46,6 +47,7 @@ func DeleteProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(500, models.NewResponse(false, "删除商品失败", "原因："+err.Error()))
 	}
+	Delete(id)
 	c.JSON(200, models.NewResponse(true, "删除成功", "操作成功"))
 }
 
@@ -58,6 +60,10 @@ func UpdateProduct(c *gin.Context) {
 		update["cover"] = cover
 	}
 	conn.Db.Table("product").Where("id=?", id).Updates(update)
+	product := models.Product{}
+	conn.Db.Table("product").Where("id=?", id).Find(&product)
+	Update(product)
+	c.JSON(200, models.NewResponse(true, "修改商品信息成功", "操作成功"))
 }
 
 func AddImages(c *gin.Context) {
