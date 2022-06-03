@@ -48,7 +48,6 @@ func init() {
 		}
 		var product []models.Product
 		conn.Db.Table("product").Find(&product)
-		fmt.Println(product)
 		for i := 0; i < len(product); i++ {
 			Add(product[i])
 		}
