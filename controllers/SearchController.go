@@ -33,16 +33,25 @@ func init() {
 			},
 			"mappings": {
 			  "properties": {
-				"content": {
-				  "type": "text",
-				  "analyzer": "ik_max_word",
-				  "search_analyzer": "ik_max_word"
-				},
 				"product_name": {
 				  "type": "text",
 				  "analyzer": "ik_max_word",
 				  "search_analyzer": "ik_max_word"
-				}
+				},
+				"price": {
+				"type": "float",
+				"analyzer": "ik_max_word",
+				"search_analyzer": "ik_max_word"
+			  },
+				"descriptions": {
+				"type": "text",
+				"analyzer": "ik_max_word",
+				"search_analyzer": "ik_max_word"
+			  },
+				"cover": {
+				"type": "text",
+				"analyzer": "ik_max_word",
+				"search_analyzer": "ik_max_word"
 			  }
 			}
 		  }
