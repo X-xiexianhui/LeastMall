@@ -7,7 +7,6 @@
 package conn
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"time"
@@ -53,5 +52,4 @@ func init() {
 	}
 	log.Println("参数配置成功")
 	cfg.WatchConfig()
-	fmt.Println(Conf)
 }

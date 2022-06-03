@@ -46,11 +46,11 @@ func init() {
 			// Handle error
 			log.Panic(err)
 		}
-		var product []models.Product
-		conn.Db.Table("product").Find(&product)
-		for i := 0; i < len(product); i++ {
-			Add(product[i])
-		}
+	}
+	var product []models.Product
+	conn.Db.Table("product").Find(&product)
+	for i := 0; i < len(product); i++ {
+		Add(product[i])
 	}
 }
 
@@ -100,11 +100,12 @@ func Update(product models.Product) {
 // Query 搜索
 func Query(c *gin.Context) {
 	keyWord := strconv.Quote(c.Query("keyWord"))
+	fmt.Println(keyWord)
 	matchQuery := elastic.NewMatchQuery("product_name", keyWord)
 	res, err := conn.EsClient.Search().
 		Index("product").
 		Query(matchQuery).
-		Sort("productName", true).
+		Sort("product_name", true).
 		Do(context.Background())
 	fmt.Println(res)
 	if err != nil {
