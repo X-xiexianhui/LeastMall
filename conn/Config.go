@@ -33,9 +33,8 @@ type Cache struct {
 }
 
 type Elastic struct {
-	Host  string `yaml:"host"`
-	Port  string `yaml:"port"`
-	Sniff bool   `yaml:"sniff"`
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
 }
 
 var Conf Config
