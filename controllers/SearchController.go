@@ -58,7 +58,7 @@ func init() {
 func Add(product models.Product) {
 	_, err := conn.EsClient.Index().
 		Index("product").
-		Id(strconv.Itoa(int(product.Id))).
+		Id(strconv.FormatInt(product.Id, 10)).
 		BodyJson(product).
 		Do(context.Background())
 	if err != nil {
