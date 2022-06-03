@@ -7,16 +7,17 @@
 package conn
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"log"
 	"time"
 )
 
 type Config struct {
-	Mysql  DataBase `yaml:"mysql"`
-	Redis  Cache    `yaml:"redis"`
-	ES     Elastic  `yaml:"elastic"`
-	Domain string   `yaml:"domain"`
+	Mysql   DataBase `yaml:"mysql"`
+	Redis   Cache    `yaml:"redis"`
+	Elastic es       `yaml:"elastic"`
+	Domain  string   `yaml:"domain"`
 }
 type DataBase struct {
 	User     string `yaml:"user"`
@@ -32,7 +33,7 @@ type Cache struct {
 	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
 
-type Elastic struct {
+type es struct {
 	Host string `yaml:"host"`
 	Port string `yaml:"port"`
 }
@@ -52,4 +53,5 @@ func init() {
 	}
 	log.Println("参数配置成功")
 	cfg.WatchConfig()
+	fmt.Println(Conf)
 }

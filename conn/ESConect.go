@@ -16,7 +16,7 @@ var EsClient *elastic.Client
 
 // init函数实饿汉式单例模式
 func init() {
-	cfg := Conf.ES
+	cfg := Conf.Elastic
 	url := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 	fmt.Println(url)
 	EsClient, err = elastic.NewClient(elastic.SetURL(url), elastic.SetSniff(false))
