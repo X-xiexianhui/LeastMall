@@ -9,6 +9,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/olivere/elastic/v7"
 	"leastMall_gin/conn"
 	"leastMall_gin/models"
 	"log"
@@ -49,6 +51,12 @@ func init() {
 		if err != nil {
 			// Handle error
 			log.Panic(err)
+		}
+		var product []models.Product
+		conn.Db.Find(&product)
+		fmt.Println(product)
+		for i := 0; i < len(product); i++ {
+			Add(product[i])
 		}
 	}
 }
@@ -97,8 +105,9 @@ func Update(product models.Product) {
 }
 
 //查找
-func gets(id string) {
+func gets(c *gin.Context) {
 	//通过id查找
+	id := c.Query("id")
 	get1, err := conn.EsClient.Get().Index("product").Type("_doc").Id(id).Do(context.Background())
 	if err != nil {
 		fmt.Println("查找失败：" + err.Error())
@@ -106,4 +115,20 @@ func gets(id string) {
 	if get1.Found {
 		fmt.Printf("Got document %s in version %d from index %s, type %s\n", get1.Id, get1.Version, get1.Index, get1.Type)
 	}
+}
+
+//搜索
+func query(c *gin.Context) {
+	keyWord := c.Query("keyWord")
+	matchQuery := elastic.NewMatchQuery("productName", keyWord)
+
+	res, err := conn.EsClient.Search().
+		Index("product").
+		Query(matchQuery).
+		Sort("productName", true).
+		Do(context.Background())
+	if err != nil {
+		c.JSON(500, models.NewResponse(false, "搜索失败", "出错了，请稍后再试"))
+	}
+	c.JSON(200, models.NewResponse(true, res, "搜索成功"))
 }
