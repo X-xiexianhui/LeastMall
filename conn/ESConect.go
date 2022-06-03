@@ -18,7 +18,7 @@ func init() {
 	cfg := Conf.ES
 	EsClient, err = elastic.NewClient(elastic.SetURL("http://"+cfg.Host+":"+cfg.Port), elastic.SetSniff(false))
 	if err != nil {
-		log.Println(err)
+		log.Panicln(err)
 	}
 	log.Println("elasticsearch connect success")
 }
