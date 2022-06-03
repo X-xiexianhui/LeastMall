@@ -37,21 +37,17 @@ func init() {
 						"type": "text",
 				  		"analyzer": "ik_max_word",
 				 	 	"search_analyzer": "ik_max_word"
-					},
-					price: {
-						"type": float
 					}
-				}
+				}	
 			}
-		  }
-		`
+		}`
 		_, err := conn.EsClient.CreateIndex("product").Body(mapping).Do(context.Background())
 		if err != nil {
 			// Handle error
 			log.Panic(err)
 		}
 		var product []models.Product
-		conn.Db.Find(&product)
+		conn.Db.Table("product").Find(&product)
 		fmt.Println(product)
 		for i := 0; i < len(product); i++ {
 			Add(product[i])
