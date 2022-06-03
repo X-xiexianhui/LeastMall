@@ -38,7 +38,7 @@ func init() {
 				  "analyzer": "ik_max_word",
 				  "search_analyzer": "ik_max_word"
 				},
-				"productName": {
+				"product_name": {
 				  "type": "text",
 				  "analyzer": "ik_max_word",
 				  "search_analyzer": "ik_max_word"
@@ -106,16 +106,17 @@ func Update(product models.Product) {
 
 // Query 搜索
 func Query(c *gin.Context) {
-	keyWord := c.Query("keyWord")
-	matchQuery := elastic.NewMatchQuery("productName", keyWord)
-
+	keyWord := strconv.Quote(c.Query("keyWord"))
+	matchQuery := elastic.NewMatchQuery("product_name", keyWord)
 	res, err := conn.EsClient.Search().
 		Index("product").
 		Query(matchQuery).
 		Sort("productName", true).
 		Do(context.Background())
+	fmt.Println(res)
 	if err != nil {
 		c.JSON(500, models.NewResponse(false, "搜索失败", "出错了，请稍后再试"))
+		return
 	}
 	c.JSON(200, models.NewResponse(true, res, "搜索成功"))
 }
