@@ -44,9 +44,7 @@ func init() {
 				"search_analyzer": "ik_max_word"
 			  },
 				"cover": {
-				"type": "text",
-				"analyzer": "ik_max_word",
-				"search_analyzer": "ik_max_word"
+				"type": "text"
 			  }
 			}
 		  }
