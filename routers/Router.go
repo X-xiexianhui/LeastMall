@@ -29,4 +29,6 @@ func init() {
 	Router.GET("/image/get", controllers.GetImage)
 	Router.POST("/image/add", controllers.AddImages)
 	Router.DELETE("/image/delete", controllers.DeleteImage)
+	//es api
+	Router.GET("/product/search", controllers.Query)
 }

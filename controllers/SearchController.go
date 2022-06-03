@@ -104,8 +104,8 @@ func Update(product models.Product) {
 	fmt.Printf("update %s\n", res.Result)
 }
 
-//查找
-func gets(id string) {
+// Gets 查找
+func Gets(id string) {
 	//通过id查找
 	get1, err := conn.EsClient.Get().Index("product").Type("_doc").Id(id).Do(context.Background())
 	if err != nil {
@@ -116,8 +116,8 @@ func gets(id string) {
 	}
 }
 
-//搜索
-func query(c *gin.Context) {
+// Query 搜索
+func Query(c *gin.Context) {
 	keyWord := c.Query("keyWord")
 	matchQuery := elastic.NewMatchQuery("productName", keyWord)
 
