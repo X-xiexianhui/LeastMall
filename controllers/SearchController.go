@@ -105,9 +105,8 @@ func Update(product models.Product) {
 }
 
 //查找
-func gets(c *gin.Context) {
+func gets(id string) {
 	//通过id查找
-	id := c.Query("id")
 	get1, err := conn.EsClient.Get().Index("product").Type("_doc").Id(id).Do(context.Background())
 	if err != nil {
 		fmt.Println("查找失败：" + err.Error())
