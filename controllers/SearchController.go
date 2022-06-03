@@ -32,20 +32,16 @@ func init() {
 			  "number_of_replicas": 0
 			},
 			"mappings": {
-			  "properties": {
-				"product_name": {
-				  "type": "text",
-				  "analyzer": "ik_max_word",
-				  "search_analyzer": "ik_max_word"
-				},
-				"descriptions": {
-				"type": "text",
-				"analyzer": "ik_max_word",
-				"search_analyzer": "ik_max_word"
-			  },
-				"cover": {
-				"type": "text"
-			  }
+				"properties": {
+					"product_name": {
+						"type": "text",
+				  		"analyzer": "ik_max_word",
+				 	 	"search_analyzer": "ik_max_word"
+					},
+					price: {
+						"type": float
+					}
+				}
 			}
 		  }
 		`
