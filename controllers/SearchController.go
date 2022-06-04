@@ -111,6 +111,7 @@ func Query(c *gin.Context) {
 		c.JSON(500, models.NewResponse(false, "搜索失败", "没有，您要查询的信息"))
 		return
 	}
+	//抽象工厂
 	var productList []models.Product
 	product := factory.ImageAbstractFactory.CreateAbstractProduct()
 	for _, item := range res.Each(reflect.TypeOf(product)) {
