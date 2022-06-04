@@ -16,3 +16,6 @@ func (i *Image) Create() {
 }
 func (i Image) Echo() {
 }
+func (i Image) SaveProduct() {
+
+}

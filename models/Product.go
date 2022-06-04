@@ -18,3 +18,6 @@ func (p *Product) Create() {
 }
 func (p Product) Echo() {
 }
+func (p Product) SaveProduct() {
+
+}
