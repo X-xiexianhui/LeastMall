@@ -14,6 +14,7 @@ import (
 	"leastMall_gin/conn"
 	"leastMall_gin/models"
 	"log"
+	"reflect"
 	"strconv"
 )
 
@@ -105,12 +106,17 @@ func Query(c *gin.Context) {
 	res, err := conn.EsClient.Search().
 		Index("product").
 		Query(matchQuery).
-		Sort("product_name", true).
 		Do(context.Background())
-	fmt.Println(res)
 	if err != nil {
 		c.JSON(500, models.NewResponse(false, "搜索失败", "出错了，请稍后再试"))
 		return
 	}
-	c.JSON(200, models.NewResponse(true, res, "搜索成功"))
+	var productList []models.Product
+	var product models.Product
+	for _, item := range res.Each(reflect.TypeOf(product)) {
+		g := item.(models.Product)
+		productList = append(productList, g)
+	}
+
+	c.JSON(200, models.NewResponse(true, productList, "搜索成功"))
 }
