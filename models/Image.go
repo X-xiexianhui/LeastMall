@@ -12,5 +12,7 @@ type Image struct {
 	Image     string `json:"image"`
 }
 
-func (b *Image) Create() {
+func (i *Image) Create() {
+}
+func (i Image) Echo() {
 }

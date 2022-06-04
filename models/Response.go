@@ -32,3 +32,7 @@ func (r *Response) SetMsg(msg string) *Response {
 	r.Msg = msg
 	return r
 }
+
+func (r Response) Echo() {
+
+}

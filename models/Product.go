@@ -16,3 +16,5 @@ type Product struct {
 
 func (p *Product) Create() {
 }
+func (p Product) Echo() {
+}
