@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"leastMall_gin/common"
 	"leastMall_gin/conn"
+	"leastMall_gin/factory"
 	"leastMall_gin/models"
 	"strconv"
 )
@@ -95,7 +96,8 @@ func GetImage(c *gin.Context) {
 
 func DeleteImage(c *gin.Context) {
 	id := c.PostForm("id")
-	err := conn.Db.Table("images").Delete(&models.Image{}, id).Error
+	image := factory.ImageFactoryObject.CreateProduct()
+	err := conn.Db.Table("images").Delete(&image, id).Error
 	if err != nil {
 		c.JSON(500, models.NewResponse(false, "删除图片失败", "操作失败"))
 	}
