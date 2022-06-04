@@ -101,7 +101,6 @@ func Update(product models.Product) {
 // Query 搜索
 func Query(c *gin.Context) {
 	keyWord := strconv.Quote(c.Query("keyWord"))
-	fmt.Println(keyWord)
 	matchQuery := elastic.NewMatchQuery("product_name", keyWord)
 	res, err := conn.EsClient.Search().
 		Index("product").
