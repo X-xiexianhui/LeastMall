@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/olivere/elastic/v7"
 	"leastMall_gin/conn"
+	"leastMall_gin/factory"
 	"leastMall_gin/models"
 	"log"
 	"reflect"
@@ -111,7 +112,7 @@ func Query(c *gin.Context) {
 		return
 	}
 	var productList []models.Product
-	var product models.Product
+	product := factory.ImageAbstractFactory.CreateAbstractProduct()
 	for _, item := range res.Each(reflect.TypeOf(product)) {
 		g := item.(models.Product)
 		productList = append(productList, g)
