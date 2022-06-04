@@ -108,7 +108,7 @@ func Query(c *gin.Context) {
 		Query(matchQuery).
 		Do(context.Background())
 	if err != nil {
-		c.JSON(500, models.NewResponse(false, "搜索失败", "出错了，请稍后再试"))
+		c.JSON(500, models.NewResponse(false, "搜索失败", "没有，您要查询的信息"))
 		return
 	}
 	var productList []models.Product
