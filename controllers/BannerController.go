@@ -64,7 +64,8 @@ func QueryBanner(c *gin.Context) {
 
 func UpdateBanner(c *gin.Context) {
 	updateColumn := c.PostFormMap("updateColumn")
-	banner := models.Image{}
+	//工厂方法模式
+	banner := factory.ImageFactoryObject.CreateProduct()
 	if err := conn.Db.Model(&banner).Updates(updateColumn).Error; err != nil {
 		c.JSON(500, models.NewResponse(false, "修改轮播图失败", "原因："+err.Error()))
 	}

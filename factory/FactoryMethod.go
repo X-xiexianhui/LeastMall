@@ -8,6 +8,10 @@ package factory
 
 import "leastMall_gin/models"
 
+var ImageFactoryObject = ImageFactory{}
+var GoodFactoryObject = GoodFactory{}
+var ResponseFactoryObject = ResponseFactory{}
+
 type TotalFactory interface {
 	CreateProduct() Product
 }
